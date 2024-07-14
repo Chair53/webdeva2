@@ -3,12 +3,19 @@
 /* Global variables */
 //target all elements to save to constants
 const mobile = window.innerWidth <= 800;
+var clickEvent;
+var gameCtrlEvent;
 var colourNow = "purple"; //"pink" "blue"
 if (mobile) {
     document.querySelector("h3+ul").classList.add("collapsed");
+    clickEvent = gameCtrlEvent = "touchend";
+}
+else {
+    clickEvent = "click";
+    gameCtrlEvent = "keyup";
 }
 const settingsbtn = document.querySelector("#settings img");
-settingsbtn.addEventListener("click", function () {
+settingsbtn.addEventListener(clickEvent, function () {
     document.querySelector("#options").classList.toggle("collapsed");
     document.querySelector("#options").classList.toggle("collapsable");
 })
@@ -94,20 +101,20 @@ var blocks = [];
 /* Event listeners */
 /*Listen for clicks on the buttons, assign anonymous
 eventhandler functions to call show function*/
-page1btn.addEventListener("click", function () {
+page1btn.addEventListener(clickEvent, function () {
     show(1);
 });
-page2btn.addEventListener("click", function () {
+page2btn.addEventListener(clickEvent, function () {
     show(2);
 });
-page3btn.addEventListener("click", function () {
+page3btn.addEventListener(clickEvent, function () {
     show(3);
 });
-homeButton.addEventListener("click", function () {
+homeButton.addEventListener(clickEvent, function () {
     show(0);
 });
 
-hamBtn.addEventListener("click", function () {
+hamBtn.addEventListener(clickEvent, function () {
     document.querySelector("h3+ul").classList.toggle("collapsed");
     document.querySelector("h3+ul").classList.toggle("collapsable");
 });
@@ -115,7 +122,7 @@ hamBtn.addEventListener("click", function () {
 //Page 1 listeners
 for (let section of sections) {
     //Make collapsable
-    section.addEventListener("click", function () {
+    section.addEventListener(clickEvent, function () {
         section.nextElementSibling.classList.toggle("collapsed");
     });
 }
@@ -270,11 +277,12 @@ function updateBlock(e) {
 
     var del = document.querySelectorAll(".deleteBlock");
     for (var i = del.length - 1; i >= 0; i--) {
-        for (let b of blocks)
+        for (let b of blocks) {
             if (b.element == del[i])
                 blocks = blocks.filter(function (thing) {
-                    return thing.element != del[i];
+                    return thing != b;
                 })
+        }
         del[i].remove();
     }
 }
@@ -282,12 +290,24 @@ function updateBlock(e) {
 function gameWinLose() {
     gameOverInt = setInterval(function () {
         //check for game over
-        //are all cells filled?
-        var lose = blocks.length >= dimension * dimension;
-        console.log("1: " + lose);
+        //are all cells filled? or is there a 2048?
+        var win = false;
+        for (let b of blocks) {
+            if (b.value >= 2048) {
+                win = true;
+                break;
+            }
+        }
+
+        var lose = (blocks.length >= dimension * dimension) && (document.querySelectorAll(".deleteBlock").length == 0) && !win;
         if (lose) {
             //do any blocks have adjacent identical values?
             for (let b of blocks) {
+                if (b.currValue >= 2048) {
+                    console.log("win");
+                    win = true;
+                    break;
+                }
                 for (let otherB of blocks) {
                     if (b == otherB)
                         continue;
@@ -302,32 +322,56 @@ function gameWinLose() {
                 }
             }
         }
-        console.log("2: " + lose);
 
-        if (lose)
-            console.log("lose");
+        if (lose || win) {
+            disableKeyboard();
+            var goScreen = document.querySelector("#gameOver");
+            var goTxt = goScreen.querySelector("h3");
+            goScreen.classList.remove("hideGameOver");
+            goScreen.classList.add("showGameOver");
+            if (lose) {
+                console.log(blocks.length);
+                goTxt.style.color = "rgb(255,0,0)";
+                goTxt.innerHTML = "Game Over";
+            }
+            else {
+                goTxt.style.color = "rgb(0,255,0)";
+                goTxt.innerHTML = "Game Win";
+            }
+        }
     })
 }
 
-//align button texts
-document.addEventListener("resize", formatButtons);
-function formatButtons(){
-    /*var buttons = document.querySelectorAll(".button");
-    var lineHeight = buttons[0].offsetHeight;
-    lineHeight *= 0.9;
-    for(let button of buttons)
-        button.nextElementSibling.style.lineHeight = lineHeight + "px";*/
-}
-formatButtons();
-
 //Game
+var count = 0;
+for (var row = 1; row <= 4; row++) {
+    for (var col = 1; col <= 4; col++) {
+        cells[count].style.gridArea = row + "/" + col + "/" + (row+1) + "/" + (col + 1);
+        count++;
+    }
+}
+const replayBtn = allpages[3].querySelector("button");
+replayBtn.addEventListener(clickEvent, function () {
+    enableKeyboard();
+    resetGame();
+});
+
 var dir = [0, 0];
 function disableKeyboard() {
-    document.removeEventListener("keyup", onInput);
-
+    if (mobile)
+        document.removeEventListener("touchstart", getFingerStart);
+    document.removeEventListener(gameCtrlEvent, onInput);
 }
 function enableKeyboard() {
-    document.addEventListener("keyup", onInput);
+    if (mobile)
+        document.addEventListener("touchstart", getFingerStart);
+    document.addEventListener(gameCtrlEvent, onInput);
+}
+
+var fingerX, fingerY;
+function getFingerStart(e) {
+    fingerX = e.touches[0].clientX;
+    fingerY = e.touches[0].clientY;
 }
 
 function createBlock(value, x, y) {
@@ -352,7 +396,7 @@ function onInput(e) {
     //check if cannot move
     var stuck = true;
     for (let b of blocks) {
-        if (b.x + dir[0] < 0 || b.x + dir[0] >= dimension || b.y + dir[0] < 0 || b.y + dir[1] >= dimension)
+        if (b.x + dir[0] < 0 || b.x + dir[0] >= dimension || b.y + dir[1] < 0 || b.y + dir[1] >= dimension)
             continue;
         var next = blockAt(b.x + dir[0], b.y + dir[1]);
         if (next == null || next.value == b.value) {
@@ -419,16 +463,37 @@ function onInput(e) {
     }
 }
 function handleInput(e) {
-    if (e.key == ("ArrowLeft") || e.key == ("a"))
-        return [-1, 0];
-    else if (e.key == ("ArrowRight") || e.key == ("d"))
-        return [1, 0];
-    else if (e.key == ("ArrowUp") || e.key == ("w"))
-        return [0, 1];
-    else if (e.key == ("ArrowDown") || e.key == ("s"))
-        return [0, -1];
-    else
-        return [0, 0];
+    if (mobile) {
+        //touchend event
+        var diffX = e.touches[0].clientX - fingerX;
+        var diffY = e.touches[0].clientY - fingerY;
+        var absX = Math.abs(diffX);
+        var absY = Math.abs(diffY);
+        //small buffer
+        if (absX < 5)
+            diffX = 0;
+        if (absY < 5)
+            diffY = 0;
+
+        if (diffX == 0 && diffY == 0)
+            return [0, 0]; //no dir
+        else if (absX < absY)
+            return [0, diffY / absY]; //vertical if y>x
+        else
+            return [diffX / absX, 0]; //default to horixontal if x>y || x==y
+    }
+    else {
+        if (e.key == ("ArrowLeft") || e.key == ("a"))
+            return [-1, 0];
+        else if (e.key == ("ArrowRight") || e.key == ("d"))
+            return [1, 0];
+        else if (e.key == ("ArrowUp") || e.key == ("w"))
+            return [0, 1];
+        else if (e.key == ("ArrowDown") || e.key == ("s"))
+            return [0, -1];
+        else
+            return [0, 0];
+    }
 }
 function blockAt(x, y) {
     //want to return greatest value block
@@ -478,6 +543,8 @@ function startGame() {
     createBlock(2, 1, 1);
 }
 function resetGame() {
+    document.querySelector("#gameOver").classList.remove("showGameOver");
+    document.querySelector("#gameOver").classList.add("hideGameOver");
     blocks = [];
     var eles = document.querySelectorAll(".block");
     for (let ele of eles)

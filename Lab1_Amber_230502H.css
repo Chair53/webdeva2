@@ -56,7 +56,7 @@ footer {
     width: 100%;
 }
 
-    footer button {
+    button {
         height: 4vh;
         padding-left: 1vw;
         padding-right: 1vw;
@@ -290,6 +290,28 @@ nav ul {
     100% {
         visibility: visible;
     }
+}
+
+#gameOver {
+    transition: opacity ease-in-out 2s;
+    grid-area: 1/1/5/5;
+    z-index:4000;
+    justify-content:center;
+    align-content:center;
+}
+
+.showGameOver {
+    opacity: 1;
+}
+.showGameOver button{
+    display:block;
+}
+
+.hideGameOver {
+    opacity: 0;
+}
+.hideGameOver button{
+    display:none;
 }
 
 /*page 2*/
@@ -796,7 +818,7 @@ footer.colourable.purple {
     background-color: #947D99;
     border-color: #947D99;
 }
-.cell.colourable.purple {
+.cell.colourable.purple, #gameOver.colourable.purple {
     background-color: #39263E;
 }
 
@@ -831,7 +853,7 @@ footer.colourable.blue {
     border-color: #7F8698;
 }
 
-.cell.colourable.blue {
+.cell.colourable.blue, #gameOver.colourable.blue {
     background-color: #272D3C;
 }
 
@@ -866,6 +888,6 @@ footer.colourable.pink {
     border-color: #CBADBB;
 }
 
-.cell.colourable.pink {
+.cell.colourable.pink, #gameOver.colourable.pink {
     background-color: #3D2632;
 }
