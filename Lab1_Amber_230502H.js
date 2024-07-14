@@ -59,7 +59,7 @@ const cells = document.querySelectorAll(".cell");
 var lefts = [];
 var tops = [];
 var size;
-var gameOverInt;
+var gameOverTO;
 class block {
     constructor(element, x, y, value) {
         this.element = element;
@@ -207,7 +207,7 @@ function show(pgno) { //function to show selected page no
         sizePg3();
         window.addEventListener("resize", sizePg3);
         enableKeyboard();
-        gameWinLose();
+        startTO();
     }
     else if (pgno == 2) {
         sizePg2Grid();
@@ -248,7 +248,7 @@ function sizePg3() {
 function resetPg3() {
     window.removeEventListener("resize", sizePg3);
     dir = [0, 0];
-    clearInterval(gameOverInt);
+    clearTimeout(gameOverTO);
     resetGame();
 }
 function updateBlock(e) {
@@ -287,59 +287,62 @@ function updateBlock(e) {
     }
 }
 
+function startTO() {
+    gameOverTO = setTimeout(gameWinLose, 1);
+}
 function gameWinLose() {
-    gameOverInt = setInterval(function () {
-        //check for game over
-        //are all cells filled? or is there a 2048?
-        var win = false;
+    //check for game over
+    //are all cells filled? or is there a 2048?
+    var win = false;
+    for (let b of blocks) {
+        if (b.value >= 2048) {
+            win = true;
+            break;
+        }
+    }
+
+    var lose = (blocks.length >= dimension * dimension) && (document.querySelectorAll(".deleteBlock").length == 0) && !win;
+    if (lose) {
+        //do any blocks have adjacent identical values?
         for (let b of blocks) {
-            if (b.value >= 2048) {
+            if (b.currValue >= 2048) {
+                console.log("win");
                 win = true;
                 break;
             }
-        }
-
-        var lose = (blocks.length >= dimension * dimension) && (document.querySelectorAll(".deleteBlock").length == 0) && !win;
-        if (lose) {
-            //do any blocks have adjacent identical values?
-            for (let b of blocks) {
-                if (b.currValue >= 2048) {
-                    console.log("win");
-                    win = true;
+            for (let otherB of blocks) {
+                if (b == otherB)
+                    continue;
+                if (b.value == otherB.value
+                    && ((Math.abs(b.x - otherB.x) == 1 && otherB.y == b.y)
+                        || (Math.abs(b.y - otherB.y) == 1 && otherB.x == b.x))) {
+                    console.log(b);
+                    console.log(otherB);
+                    lose = false;
                     break;
                 }
-                for (let otherB of blocks) {
-                    if (b == otherB)
-                        continue;
-                    if (b.value == otherB.value
-                        && ((Math.abs(b.x - otherB.x) == 1 && otherB.y == b.y)
-                            || (Math.abs(b.y - otherB.y) == 1 && otherB.x == b.x))) {
-                        console.log(b);
-                        console.log(otherB);
-                        lose = false;
-                        break;
-                    }
-                }
             }
         }
+    }
 
-        if (lose || win) {
-            disableKeyboard();
-            var goScreen = document.querySelector("#gameOver");
-            var goTxt = goScreen.querySelector("h3");
-            goScreen.classList.remove("hideGameOver");
-            goScreen.classList.add("showGameOver");
-            if (lose) {
-                console.log(blocks.length);
-                goTxt.style.color = "rgb(255,0,0)";
-                goTxt.innerHTML = "Game Over";
-            }
-            else {
-                goTxt.style.color = "rgb(0,255,0)";
-                goTxt.innerHTML = "Game Win";
-            }
+    if (lose || win) {
+        disableKeyboard();
+        var goScreen = document.querySelector("#gameOver");
+        var goTxt = goScreen.querySelector("h3");
+        goScreen.classList.remove("hideGameOver");
+        goScreen.classList.add("showGameOver");
+        if (lose) {
+            console.log(blocks.length);
+            goTxt.style.color = "rgb(255,0,0)";
+            goTxt.innerHTML = "Game Over";
         }
-    })
+        else {
+            goTxt.style.color = "rgb(0,255,0)";
+            goTxt.innerHTML = "Game Win";
+        }
+    }
+
+    setTimeout(gameWinLose, 1);
 }
 
 //Game
@@ -466,7 +469,7 @@ function handleInput(e) {
     if (mobile) {
         //touchend event
         var diffX = e.changedTouches[0].clientX - fingerX;
-        var diffY = e.changedTouches[0].clientY - fingerY;
+        var diffY = fingerY - e.changedTouches[0].clientY;
         var absX = Math.abs(diffX);
         var absY = Math.abs(diffY);
         //small buffer
