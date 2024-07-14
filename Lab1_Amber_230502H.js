@@ -465,8 +465,8 @@ function onInput(e) {
 function handleInput(e) {
     if (mobile) {
         //touchend event
-        var diffX = e.touches[0].clientX - fingerX;
-        var diffY = e.touches[0].clientY - fingerY;
+        var diffX = e.changedTouches[0].clientX - fingerX;
+        var diffY = e.changedTouches[0].clientY - fingerY;
         var absX = Math.abs(diffX);
         var absY = Math.abs(diffY);
         //small buffer
