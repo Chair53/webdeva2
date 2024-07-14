@@ -126,6 +126,26 @@ for (let section of sections) {
         section.nextElementSibling.classList.toggle("collapsed");
     });
 }
+
+const styledBtns = document.querySelectorAll("button");
+var mouseoverEvent;
+if (mobile)
+    mouseoverEvent = "touchstart";
+else
+    mouseoverEvent = "mouseover";
+for (let btn of styledBtns) {
+    btn.addEventListener(mouseoverEvent, function (e) {
+        e.target.classList.add("buttonClick");
+    })
+    btn.addEventListener(clickEvent, function (e) {
+        e.target.classList.remove("buttonClick");
+    })
+    if(!mobile){
+        btn.addEventListener("mouseleave", function (e) {
+            e.target.classList.remove("buttonClick");
+        })
+    }
+}
 /* End event listeners */
 
 show(0);

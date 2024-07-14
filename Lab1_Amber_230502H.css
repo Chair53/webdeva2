@@ -62,6 +62,17 @@ footer {
         padding-right: 1vw;
         border-radius: 6px;
         box-shadow: rgba(0,0,0,0.4) 0.2vw 0.4vh;
+        position:relative;
+        left:0;
+        top:0;
+        transition:left 0.2s ease-in, top 0.2s ease-in;
+    }
+
+    .buttonClick{
+        box-shadow:none;
+        left:0.2vw;
+        top:0.4vh;
+        color:white;
     }
 
 .minWidth {
@@ -224,7 +235,7 @@ nav ul {
 }
 
 .collapsable {
-    max-height: 100vh;
+    max-height: 3000px;
     transition: max-height 1s ease, padding 0.5s ease, border-width 0.5s ease;
 }
 
@@ -795,12 +806,18 @@ ol li:nth-child(4) .animGrid {
 
 /*colourable things*/
 /*purple*/
-h3.colourable.purple, p.colourable.purple, u.colourable.purple, li.colourable.purple, button.colourable.purple {
+h3.colourable.purple, p.colourable.purple, u.colourable.purple, li.colourable.purple, button.colourable.purple:not(.buttonClick) {
     color: #947C98;
 }
+
 h1.colourable.purple, h2.colourable.purple {
     color: #5E4963
 }
+
+.buttonClick.colourable.purple {
+    background-color: #5E4963;
+}
+
 .page.colourable.purple {
     border-left: 2px solid #C1A9C6;
     border-right: 2px solid #C1A9C6;
@@ -823,12 +840,17 @@ footer.colourable.purple {
 }
 
 /*blue*/
-h3.colourable.blue, p.colourable.blue, u.colourable.blue, li.colourable.blue, button.colourable.blue {
+h3.colourable.blue, p.colourable.blue, u.colourable.blue, li.colourable.blue, button.colourable.blue:not(.buttonClick) {
     color: #ACB3C6;
 }
 
 h1.colourable.blue, h2.colourable.blue {
     color: #414756;
+}
+
+
+.buttonClick.colourable.blue {
+    background-color: #414756;
 }
 
 .page.colourable.blue {
@@ -853,17 +875,21 @@ footer.colourable.blue {
     border-color: #7F8698;
 }
 
-.cell.colourable.blue, #gameOver.colourable.blue {
+.cell.colourable.blue, #gameOver.colourable.blue{
     background-color: #272D3C;
 }
 
 /*pink*/
-h3.colourable.pink, p.colourable.pink, u.colourable.pink, li.colourable.pink, button.colourable.pink {
+h3.colourable.pink, p.colourable.pink, u.colourable.pink, li.colourable.pink, button.colourable.pink:not(.buttonClick) {
     color: #C6A9B7;
 }
 
 h1.colourable.pink, h2.colourable.pink {
     color: #987D8A;
+}
+
+.buttonClick.colourable.pink {
+    background-color: #987D8A;
 }
 
 .page.colourable.pink {
@@ -888,6 +914,14 @@ footer.colourable.pink {
     border-color: #CBADBB;
 }
 
-.cell.colourable.pink, #gameOver.colourable.pink {
+.cell.colourable.pink, #gameOver.colourable.pink{
     background-color: #3D2632;
+}
+
+/*fonts*/
+h1, h2{
+    font-family:'Lucida Calligraphy', 'Lucida Handwriting', 'Brush Script MT', cursive;
+}
+h3,p,u,li,button,label{
+    font-family: Georgia;
 }
