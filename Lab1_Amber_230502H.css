@@ -1,0 +1,871 @@
+﻿* {
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+body {
+    background-size: cover;
+    background-attachment: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+    overflow-x: hidden;
+}
+/*@media screen and (max-width:800px)
+{
+    body{
+        background-size:100%100vh;
+    }
+}*/
+
+.button {
+    width: 50%;
+    margin-left: 31%;
+}
+
+    .button ~ p {
+        text-align: center;
+        margin-top: 16%;
+    }
+
+#title {
+    margin: 0;
+    width: 100%;
+}
+
+header {
+    height: 7%;
+    width: 100%;
+    text-align: center;
+}
+
+    header > #title {
+        line-height: 7vh;
+    }
+
+footer {
+    padding: 2vh 0 2vh 0;
+    align-content: center;
+    text-align: center;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+}
+
+    footer button {
+        height: 4vh;
+        padding-left: 1vw;
+        padding-right: 1vw;
+        border-radius: 6px;
+        box-shadow: rgba(0,0,0,0.4) 0.2vw 0.4vh;
+    }
+
+.minWidth {
+    width: max-content;
+}
+
+.minHeight {
+    height: min-content;
+}
+
+.autoMargin {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.centerTxt {
+    text-align: center;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.flex {
+    flex-wrap: wrap;
+}
+
+/*Classes for toggling display none -> anything*/
+.showBlock {
+    display: block;
+}
+
+.showFlex {
+    display: flex;
+}
+
+.hideBlock, .hideFlex {
+    display: none;
+}
+
+#pagecontainer {
+    margin-top: 0;
+    width: 80%;
+    padding: 0;
+}
+
+.page {
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+    .page > h2 {
+        margin: 0;
+    }
+
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    padding-right: 0;
+    justify-content: space-around;
+}
+
+    nav ul li {
+        display: inline-grid;
+        max-width: 30%;
+        text-align: center;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    }
+
+        nav ul li * {
+            grid-area: 1/1/1/1;
+        }
+
+#page0 {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    text-align: center;
+    align-content: center;
+}
+
+#page1, #page2 {
+    background: white;
+}
+
+#page3 {
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+/*CSS for responsive menu*/
+#hamIcon {
+    display: none;
+}
+
+@media screen and (max-width:800px) {
+    nav ul li {
+        max-width: unset;
+        display: grid;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 5%;
+        width: 70%;
+    }
+    /*make a menu items vertical*/
+    #hamIcon {
+        display: block;
+    }
+    /* unhide menu icon */
+    nav ul {
+        /*display: none;*/
+        max-height: 0;
+        overflow: clip;
+    }
+    /*hide the menu item list*/
+}
+
+.menuHide {
+    display: block;
+}
+
+#page0 > *, #page1 *:not(.collapsable), #page2 > * {
+    padding: 2%
+}
+
+#page1 > div, #page2 > div {
+    justify-content: space-evenly;
+    overflow: hidden;
+}
+
+    #page1 > div > div {
+        flex-basis: 40%;
+    }
+
+#page1 > h3, #page2 > h3 {
+    margin: 0;
+}
+
+    #page1 > h3:nth-of-type(1) {
+        background: #9FB164;
+        color: #DCE5BE;
+    }
+
+    #page1 > h3:nth-of-type(2) {
+        background: #664229;
+        color: #B99976;
+    }
+
+    #page1 > h3:nth-of-type(3) {
+        background: #FAE588;
+        color: #FFFDF2
+    }
+
+#page1 > .flex.w100 p, #page2 > .flex p {
+    text-align: justify;
+}
+
+.collapsable {
+    max-height: 100vh;
+    transition: max-height 1s ease, padding 0.5s ease, border-width 0.5s ease;
+}
+
+.collapsed {
+    max-height: 0;
+    transition: max-height 1s ease, padding 0.5s ease, border-width 0.5s ease;
+    overflow: clip;
+}
+
+/*Game styles*/
+
+#board {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    width: 80vh;
+    height: 80vh;
+    gap: 1.6vh;
+    border-width:1.6vh;
+    border-style:solid;
+}
+
+@media screen and (max-width:800px) {
+    /*phone width is smaller than height, fit based on width*/
+    #board {
+        position: relative;
+        width: 80vw;
+        height: 80vw;
+        gap: 1.6vw;
+        border-width:1.6vw;
+    }
+}
+
+.cell {
+    opacity: 0.2;
+}
+
+.block {
+    position: absolute;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    transition: left 0.5s ease-out, top 0.5s ease-out;
+    visibility: hidden;
+    animation-name: newBlock;
+    animation-delay: 0.5s;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+}
+
+    .block > img {
+        flex-basis: 100%;
+        overflow: hidden;
+    }
+
+@keyframes newBlock {
+    0% {
+        height: 0;
+        width: 0;
+        visibility: visible;
+    }
+
+    100% {
+        visibility: visible;
+    }
+}
+
+/*page 2*/
+#page2 > .flex {
+    width: 80%;
+}
+
+#page2 ol {
+    flex-basis: 100%;
+}
+
+    #page2 ol *:not(.pg2Anim):not(.animGrid):not(#timer):not(#timerhand) {
+        top: unset;
+        width: 100%;
+    }
+
+.animGrid {
+    display: grid;
+    width: 80%;
+}
+
+ol li:nth-child(1) .animGrid {
+    grid-template-columns: 2fr 3fr 2fr;
+    grid-template-rows: 4fr 3fr 2fr;
+}
+
+    ol li:nth-child(1) .animGrid .stainedCup {
+        grid-area: 1/1/4/4;
+    }
+
+.pg2Anim {
+    position: relative;
+}
+
+#water {
+    animation: waterAnim 2s linear 0s infinite;
+    grid-area: 1/3/2/4;
+    width: 100%;
+}
+
+@keyframes waterAnim {
+    0% {
+        transform: rotateZ(0deg);
+        left: 0;
+        top: 4%;
+    }
+
+    30% {
+        transform: rotateZ(-45deg);
+        left: 0;
+        top: 4%;
+    }
+
+    40% {
+        transform: rotateZ(-45deg);
+        left: 4%;
+        top: 0;
+    }
+
+    50% {
+        transform: rotateZ(-45deg);
+        left: 0;
+        top: 4%;
+    }
+
+    60% {
+        transform: rotateZ(-45deg);
+        left: 4%;
+        top: 0;
+    }
+
+    70% {
+        transform: rotateZ(-45deg);
+        left: 0;
+        top: 4%;
+    }
+
+    100% {
+        transform: rotateZ(0deg);
+        left: 0;
+        top: 4%;
+    }
+}
+
+#waterdrop {
+    grid-area: 2/2/3/3;
+    width: 93%;
+    margin-left: auto;
+    animation: waterdropAnim 2s linear infinite;
+}
+
+@keyframes waterdropAnim {
+    0% {
+        opacity: 0;
+        height: 0;
+    }
+
+    30% {
+        opacity: 0;
+        height: 0;
+    }
+
+    50% {
+        height: 50%;
+    }
+
+    70% {
+        opacity: 1;
+        height: 100%;
+    }
+
+    93% {
+        opacity: 1;
+        height: 100%;
+    }
+
+    100% {
+        opacity: 0;
+        height: 100%;
+    }
+}
+
+ol li:nth-child(2) .animGrid {
+    grid-template-rows: 50% 50%;
+    grid-template-columns: 3fr 1fr 1fr 1fr 1fr 3fr;
+}
+
+    ol li:nth-child(2) .animGrid .stainedCup {
+        grid-area: 1/1/3/7;
+    }
+
+#bakingsoda {
+    grid-area: 1/1/2/6;
+    width: 40%;
+    height: 70%;
+    transform: scaleY(-1);
+    animation: bakingsoda 2s linear infinite;
+}
+
+@keyframes bakingsoda {
+    0% {
+        left: 0;
+        top: 0;
+    }
+
+    13% {
+        left: 18%;
+        top: 20%;
+    }
+
+    26% {
+        left: 36%;
+        top: 0;
+    }
+
+    39% {
+        left: 54%;
+        top: 20%;
+    }
+
+    52% {
+        left: 72%;
+        top: 0;
+    }
+
+    65% {
+        left: 90%;
+        top: 20%;
+    }
+
+    78% {
+        left: 100%;
+        top: 0;
+    }
+
+    100% {
+        left: 0;
+        top: 0;
+    }
+}
+
+.cloud {
+    width: 90%;
+    animation: 2s linear infinite;
+}
+
+@keyframes cloud0 {
+    0%, 13% {
+        opacity: 0;
+    }
+
+    26% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes cloud1 {
+    0%, 26% {
+        opacity: 0;
+    }
+
+    39% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes cloud2 {
+    0%, 39% {
+        opacity: 0;
+    }
+
+    52% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes cloud3 {
+    0%, 52% {
+        opacity: 0;
+    }
+
+    65% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+ol li:nth-child(3) .animGrid {
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+}
+
+    ol li:nth-child(3) .animGrid .stainedCup {
+        grid-area: 1/1/2/2;
+        width: 100%;
+        animation-name: cupAway;
+    }
+
+    ol li:nth-child(3) .animGrid *:not(#timer) {
+        grid-template-rows: 1fr;
+        grid-template-columns: 1fr;
+        animation-duration: 3.5s;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+    }
+
+@keyframes cupAway {
+    0% {
+        left: 0;
+    }
+
+    20% {
+        left: -125%;
+        visibility: hidden;
+    }
+
+    21% {
+        left: 125%;
+        visibility: hidden;
+    }
+
+    22%, 80% {
+        left: 125%;
+        visibility: visible;
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+#clock {
+    grid-area: 1/1/2/2;
+    width: 100%;
+    animation-name: clock;
+}
+
+@keyframes clock {
+    0% {
+        left: 125%;
+    }
+
+    20% {
+        left: 0;
+    }
+
+    80% {
+        left: 0;
+    }
+
+    100% {
+        left: -125%;
+    }
+}
+
+#timer {
+    width: 65%;
+    position: relative;
+    left: 17%;
+}
+
+#timerhand {
+    width: 25%;
+    position: relative;
+    top: -47.3%;
+    left: -28.3%;
+    animation-name: hourHand;
+}
+
+@keyframes hourHand {
+    0% {
+        top: -47.2%;
+        left: -28.2%;
+        transform: rotateZ(0deg);
+    }
+
+    20% {
+        top: -47.2%;
+        left: -28.2%;
+        transform: rotateZ(0deg);
+    }
+
+    80% {
+        top: -47.3%;
+        left: -28.3%;
+        transform: rotateZ(63deg);
+    }
+
+    100% {
+        top: -47.3%;
+        left: -28.3%;
+        transform: rotateZ(63deg);
+    }
+}
+
+
+ol li:nth-child(4) .animGrid {
+    grid-template-rows: 40% 60%;
+    grid-template-columns: 1fr;
+}
+
+    ol li:nth-child(4) .animGrid .stainedCup {
+        grid-area: 1/1/3/2;
+    }
+
+#sponge {
+    grid-area: 2/1/3/2;
+    width: 27%;
+    animation: sponge 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes sponge {
+    0% {
+        left: 20%;
+        top: 0
+    }
+
+    25% {
+        left: 28%;
+        top: 37%
+    }
+
+    50% {
+        left: 36%;
+        top: 0
+    }
+
+    75% {
+        left: 42%;
+        top: 37%
+    }
+
+    100% {
+        left: 50%;
+        top: 0
+    }
+}
+
+#settings {
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    height: 7.8vh;
+    width: 7.8vh;
+    padding: 1%;
+    z-index: 2;
+}
+
+    #settings img {
+        width: 100%;
+    }
+
+#options {
+    bottom: 7.8vh;
+    right: 0;
+    position: fixed;
+    background-color: white;
+    border-radius: 6px;
+    width: 20vw;
+}
+
+    #options.collapsable {
+        padding: 2%;
+        border: 3px solid grey;
+    }
+
+    #options h3 {
+        text-align: center;
+    }
+
+#theme {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+}
+
+    #theme * {
+        align-self: center;
+        justify-self: center;
+    }
+
+    #theme label {
+        grid-area: auto/1/auto/2;
+    }
+
+    #theme input {
+        height: 3vh;
+        width: 3vh;
+        grid-area: auto/2/auto/3;
+    }
+    #theme .purple {
+        accent-color: #C072D4;
+        color: #C072D4;
+    }
+    #theme .blue {
+        accent-color: #0093FF;
+        color: #0093FF;
+    }
+    #theme .pink {
+        accent-color: #F055B1;
+        color: #F055B1;
+    }
+@media screen and (max-width:800px) {
+    #theme input {
+        width: 3vw;
+        height: 3vw;
+    }
+}
+
+/*colourable things*/
+/*purple*/
+h3.colourable.purple, p.colourable.purple, u.colourable.purple, li.colourable.purple, button.colourable.purple {
+    color: #947C98;
+}
+h1.colourable.purple, h2.colourable.purple {
+    color: #5E4963
+}
+.page.colourable.purple {
+    border-left: 2px solid #C1A9C6;
+    border-right: 2px solid #C1A9C6;
+}
+body.colourable.purple {
+    background-image: url("img/bgpurple.jpg");
+}
+header.colourable.purple {
+    background-color: #C1A9C6;
+}
+footer.colourable.purple {
+    background-color: #947D99;
+}
+#board.colourable.purple {
+    background-color: #947D99;
+    border-color: #947D99;
+}
+.cell.colourable.purple {
+    background-color: #39263E;
+}
+
+/*blue*/
+h3.colourable.blue, p.colourable.blue, u.colourable.blue, li.colourable.blue, button.colourable.blue {
+    color: #ACB3C6;
+}
+
+h1.colourable.blue, h2.colourable.blue {
+    color: #414756;
+}
+
+.page.colourable.blue {
+    border-left: 2px solid #9DABCF;
+    border-right: 2px solid #9DABCF;
+}
+
+body.colourable.blue {
+    background-image: url("img/bgblue.jpg");
+}
+
+header.colourable.blue {
+    background-color: #9DABCF;
+}
+
+footer.colourable.blue {
+    background-color: #7F8698;
+}
+
+#board.colourable.blue {
+    background-color: #7F8698;
+    border-color: #7F8698;
+}
+
+.cell.colourable.blue {
+    background-color: #272D3C;
+}
+
+/*pink*/
+h3.colourable.pink, p.colourable.pink, u.colourable.pink, li.colourable.pink, button.colourable.pink {
+    color: #C6A9B7;
+}
+
+h1.colourable.pink, h2.colourable.pink {
+    color: #987D8A;
+}
+
+.page.colourable.pink {
+    border-left: 2px solid #F3D5E4;
+    border-right: 2px solid #F3D5E4;
+}
+
+body.colourable.pink {
+    background-image: url("img/bgpink.jpg");
+}
+
+header.colourable.pink {
+    background-color: #F3D5E4;
+}
+
+footer.colourable.pink {
+    background-color: #CBADBB;
+}
+
+#board.colourable.pink {
+    background-color: #CBADBB;
+    border-color: #CBADBB;
+}
+
+.cell.colourable.pink {
+    background-color: #3D2632;
+}
