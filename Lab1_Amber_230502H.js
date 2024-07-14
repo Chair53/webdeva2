@@ -361,14 +361,20 @@ replayBtn.addEventListener(clickEvent, function () {
 
 var dir = [0, 0];
 function disableKeyboard() {
-    if (mobile)
-        document.removeEventListener("touchstart", getFingerStart);
-    document.removeEventListener(gameCtrlEvent, onInput);
+    if (mobile) {
+        board.removeEventListener("touchstart", getFingerStart);
+        board.removeEventListener(gameCtrlEvent, onInput);
+    }
+    else
+        document.removeEventListener(gameCtrlEvent, onInput);
 }
 function enableKeyboard() {
-    if (mobile)
-        document.addEventListener("touchstart", getFingerStart);
-    document.addEventListener(gameCtrlEvent, onInput);
+    if (mobile) {
+        board.addEventListener("touchstart", getFingerStart, true);
+        board.addEventListener(gameCtrlEvent, onInput, true);
+    }
+    else
+        document.addEventListener(gameCtrlEvent, onInput);
 }
 
 var fingerX, fingerY;
