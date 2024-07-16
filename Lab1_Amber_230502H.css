@@ -248,14 +248,16 @@ nav ul {
 /*Game styles*/
 
 #board {
-    display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     width: 80vh;
     height: 80vh;
+}
+#board, #equipment {
+    display: grid;
     gap: 1.6vh;
-    border-width:1.6vh;
-    border-style:solid;
+    border-width: 1.6vh;
+    border-style: solid;
 }
 
 @media screen and (max-width:800px) {
@@ -269,7 +271,7 @@ nav ul {
     }
 }
 
-.cell {
+.cell, .equipCell {
     opacity: 0.2;
 }
 
@@ -343,13 +345,16 @@ nav ul {
     display: grid;
     width: 80%;
 }
+.stainedCup{
+    width:100%;
+}
 
-ol li:nth-child(1) .animGrid {
+ol li:nth-child(1) .animGrid{
     grid-template-columns: 2fr 3fr 2fr;
     grid-template-rows: 4fr 3fr 2fr;
 }
 
-    ol li:nth-child(1) .animGrid .stainedCup {
+    ol li:nth-child(1) .animGrid .stainedCup, #cleanGrid .stainedCup {
         grid-area: 1/1/4/4;
     }
 
@@ -359,8 +364,8 @@ ol li:nth-child(1) .animGrid {
 
 #water {
     animation: waterAnim 2s linear 0s infinite;
-    grid-area: 1/3/2/4;
     width: 100%;
+    grid-area: 1/3/2/4;
 }
 
 @keyframes waterAnim {
@@ -408,10 +413,12 @@ ol li:nth-child(1) .animGrid {
 }
 
 #waterdrop {
-    grid-area: 2/2/3/3;
     width: 93%;
     margin-left: auto;
     animation: waterdropAnim 2s linear infinite;
+}
+#waterdrop, #stainOverlay, #star {
+    grid-area: 2/2/3/3;
 }
 
 @keyframes waterdropAnim {
@@ -732,7 +739,65 @@ ol li:nth-child(4) .animGrid {
         top: 0
     }
 }
+/*p2 interactable*/
+#cleanGrid{
+    grid-template-rows:7fr 7fr 2fr;
+    grid-template-columns:6fr 3fr 5fr;
+}
 
+.particle{
+    position:absolute;
+    width:5%;
+    height:5%;
+    opacity:0.5;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+#stainOverlay{
+    width:100%;
+    height:100%;
+    position:relative;
+}
+#equipment{
+    margin-top:7%;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows:1fr;
+    width:80%;
+    align-content:center;
+}
+.equipCell {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.equipCell img{
+    width:100%;
+    visibility:hidden;
+}
+.equip{
+    position:absolute;
+}
+.equipAnim{
+    pointer-events:none;
+    animation: equip 1s ease-in;
+    animation-fill-mode:forwards;
+}
+@keyframes equip{
+    0%{opacity:1; display:block;}
+    99%{opacity:0;display:block;}
+    100%{opacity:0;display:block;}
+}
+#star{
+    width:100%;
+    animation:star 2s infinite;
+    display:none;
+}
+@keyframes star{
+    0%{transform:rotateZ(-45deg);}
+    50%{transform:rotateZ(0deg);}
+    100%{transform:rotateZ(-45deg);}
+}
+
+/*settings*/
 #settings {
     bottom: 0;
     right: 0;
@@ -831,11 +896,11 @@ header.colourable.purple {
 footer.colourable.purple {
     background-color: #947D99;
 }
-#board.colourable.purple {
+#board.colourable.purple, #equipment.colourable.purple {
     background-color: #947D99;
     border-color: #947D99;
 }
-.cell.colourable.purple, #gameOver.colourable.purple {
+.cell.colourable.purple, #gameOver.colourable.purple, .equipCell.colourable.purple {
     background-color: #39263E;
 }
 
@@ -870,12 +935,12 @@ footer.colourable.blue {
     background-color: #7F8698;
 }
 
-#board.colourable.blue {
+#board.colourable.blue, #equipment.colourable.blue {
     background-color: #7F8698;
     border-color: #7F8698;
 }
 
-.cell.colourable.blue, #gameOver.colourable.blue{
+.cell.colourable.blue, #gameOver.colourable.blue, .equipCell.colourable.blue {
     background-color: #272D3C;
 }
 
@@ -909,12 +974,12 @@ footer.colourable.pink {
     background-color: #CBADBB;
 }
 
-#board.colourable.pink {
+#board.colourable.pink, #equipment.colourable.pink {
     background-color: #CBADBB;
     border-color: #CBADBB;
 }
 
-.cell.colourable.pink, #gameOver.colourable.pink{
+.cell.colourable.pink, #gameOver.colourable.pink, .equipCell.colourable.pink {
     background-color: #3D2632;
 }
 
@@ -924,4 +989,8 @@ h1, h2{
 }
 h3,p,u,li,button,label{
     font-family: Georgia;
+}
+
+#bgm{
+    display:none;
 }

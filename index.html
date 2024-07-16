@@ -5,10 +5,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tea</title>
+
+    <!-- mobile fullscreen -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Tea">
+
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+
     <link rel="stylesheet" href="Lab1_Amber_230502H.css">
     <script src="Lab1_Amber_230502H.js" defer></script>
 </head>
 <body class="colourable">
+    <audio id="bgm">
+        <source src="yume_no_kissaten_mitsukiyo.mp3" type="audio/mpeg">
+        Debug no audio
+    </audio>
+
     <header class="showBlock colourable">
         <h1 id="title" class="colourable">Tea</h1>
     </header>
@@ -177,7 +195,7 @@
                             <img src="img/cloud.png" alt="baking soda cloud" class="pg2Anim cloud" />
                         </div>
                         <p class="colourable">
-                            Baking soda is an alkali and reacts with the acidic stains, 
+                            Baking soda is an alkali and reacts with the acidic stains,
                             helping to remove them.
                         </p>
                     </li>
@@ -205,6 +223,29 @@
                         </p>
                     </li>
                 </ol>
+                <!-- interactable -->
+                <h3 class="colourable">Try it yourself</h3>
+                <div class="w100"></div>
+                <div class="animGrid autoMargin" id="cleanGrid">
+                    <img src="img/stained.jpg" alt="stained cup" class="stainedCup" />
+                    <div id="stainOverlay"></div>
+                    <img src="img/star.png" alt="well done" id="star" />
+                </div>
+                <div id="equipment" class="autoMargin colourable">
+                    <div class="equipCell colourable">
+                        <img src="img/water.png" alt="water"/>
+                    </div>
+                    <div class="equipCell colourable">
+                        <img src="img/bakingsoda.png" alt="baking soda"/>
+                    </div>
+                    <div class="equipCell colourable">
+                        <img src="img/sponge.png" alt="sponge"/>
+                    </div>
+                </div>
+                <img src="img/water.png" alt="water" id="equip0" class="equip" />
+                <img src="img/bakingsoda.png" alt="baking soda" id="equip1" class="equip" />
+                <img src="img/sponge.png" alt="sponge" id="equip2" class="equip" />
+
             </div>
         </div>
         <!-- Game -->

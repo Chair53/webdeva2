@@ -3,22 +3,20 @@
 /* Global variables */
 //target all elements to save to constants
 const mobile = window.innerWidth <= 800;
-var clickEvent;
 var gameCtrlEvent;
 var colourNow = "purple"; //"pink" "blue"
 if (mobile) {
     document.querySelector("h3+ul").classList.add("collapsed");
-    clickEvent = gameCtrlEvent = "touchend";
+    gameCtrlEvent = "touchend";
 }
 else {
-    clickEvent = "click";
     gameCtrlEvent = "keyup";
 }
 const settingsbtn = document.querySelector("#settings img");
-settingsbtn.addEventListener(clickEvent, function () {
+settingsbtn.addEventListener("click", function () {
     document.querySelector("#options").classList.toggle("collapsed");
     document.querySelector("#options").classList.toggle("collapsable");
-})
+});
 const colourables = document.querySelectorAll(".colourable");
 //Setting up things for form
 for (let colourable of colourables) {
@@ -49,7 +47,6 @@ var allpages = document.querySelectorAll(".page");
 const homeButton = document.querySelector("footer>button");
 //JS for hamMenu
 const hamBtn = document.querySelector("#hamIcon");
-const menuItemsList = document.querySelector("nav ul");
 //Page 1 variables
 const sections = allpages[1].querySelectorAll("h3");
 //Page 3 variables
@@ -96,25 +93,33 @@ class block {
     }
 }
 var blocks = [];
+
+//page 2
+const stainSize = 5;
+const overlay = document.querySelector("#stainOverlay");
+const equips = document.querySelectorAll(".equip");
+const equipCells = document.querySelectorAll(".equipCell");
+var step = 0;
+
 /* End global variables */
 
 /* Event listeners */
 /*Listen for clicks on the buttons, assign anonymous
 eventhandler functions to call show function*/
-page1btn.addEventListener(clickEvent, function () {
+page1btn.addEventListener("click", function () {
     show(1);
 });
-page2btn.addEventListener(clickEvent, function () {
+page2btn.addEventListener("click", function () {
     show(2);
 });
-page3btn.addEventListener(clickEvent, function () {
+page3btn.addEventListener("click", function () {
     show(3);
 });
-homeButton.addEventListener(clickEvent, function () {
+homeButton.addEventListener("click", function () {
     show(0);
 });
 
-hamBtn.addEventListener(clickEvent, function () {
+hamBtn.addEventListener("click", function () {
     document.querySelector("h3+ul").classList.toggle("collapsed");
     document.querySelector("h3+ul").classList.toggle("collapsable");
 });
@@ -122,7 +127,7 @@ hamBtn.addEventListener(clickEvent, function () {
 //Page 1 listeners
 for (let section of sections) {
     //Make collapsable
-    section.addEventListener(clickEvent, function () {
+    section.addEventListener("click", function () {
         section.nextElementSibling.classList.toggle("collapsed");
     });
 }
@@ -136,14 +141,14 @@ else
 for (let btn of styledBtns) {
     btn.addEventListener(mouseoverEvent, function (e) {
         e.target.classList.add("buttonClick");
-    })
-    btn.addEventListener(clickEvent, function (e) {
+    });
+    btn.addEventListener("click", function (e) {
         e.target.classList.remove("buttonClick");
-    })
+    });
     if(!mobile){
         btn.addEventListener("mouseleave", function (e) {
             e.target.classList.remove("buttonClick");
-        })
+        });
     }
 }
 /* End event listeners */
@@ -230,8 +235,8 @@ function show(pgno) { //function to show selected page no
         startTO();
     }
     else if (pgno == 2) {
-        sizePg2Grid();
-        window.addEventListener("resize", sizePg2Grid);
+        sizeAlignPg2();
+        window.addEventListener("resize", sizeAlignPg2);
     }
 }
 
@@ -301,7 +306,7 @@ function updateBlock(e) {
             if (b.element == del[i])
                 blocks = blocks.filter(function (thing) {
                     return thing != b;
-                })
+                });
         }
         del[i].remove();
     }
@@ -374,7 +379,7 @@ for (var row = 1; row <= 4; row++) {
     }
 }
 const replayBtn = allpages[3].querySelector("button");
-replayBtn.addEventListener(clickEvent, function () {
+replayBtn.addEventListener("click", function () {
     enableKeyboard();
     resetGame();
 });
@@ -582,6 +587,96 @@ function resetGame() {
 }
 
 //page 2
+//interactable
+for (let img of allpages[2].querySelectorAll("img")) {
+    img.setAttribute("draggable", (img.classList.contains("equip")));
+}
+settingsbtn.setAttribute("draggable", false);
+function resetCleaning() {
+    for (let p of document.querySelectorAll(".particle"))
+    {
+        p.style.backgroundColor = "saddlebrown";
+        p.style.opacity = 1;
+    }
+
+    sizeAlignPg2();
+    document.querySelector("#star").style.display = "none"
+
+    for (let equip of equips) {
+        equip.classList.remove("equipAnim");
+    }
+
+    step = 0;
+}
+for (var row = 0; row < 100 / stainSize; row++) {
+    for (var col = 0; col < 100 / stainSize; col++) {
+        if (row >= 30 / stainSize && col != 50 / stainSize)
+            continue;
+        var stain = document.createElement("div");
+        stain.classList.add("particle");
+        stain.classList.add("particle");
+        stain.style.backgroundColor = "saddlebrown";
+        stain.style.left = (col * stainSize) + "%";
+        stain.style.top = (row * stainSize) + "%";
+        overlay.appendChild(stain);
+    }
+}
+
+for (let equip of equips) {
+    equip.addEventListener("drag", followMouse);
+    equip.addEventListener("animationstart", function (e) {
+        e.target.removeEventListener("dragstart", followMouse);
+    });
+    equip.addEventListener("animationend", function () {
+        step++;
+    })
+    equip.addEventListener("dragstart", function (e) {
+        e.dataTransfer.setData("text", e.target.id);
+        e.dataTransfer.setDragImage(e.target, window.outerWidth, window.outerHeight);
+    });
+    equip.addEventListener("dragend", equipDragEnd);
+}
+
+function equipDragEnd(e) {
+    var rect2 = overlay.getBoundingClientRect();
+    var id = e.target.id;
+    var last = id[id.length - 1]
+
+    var validX = e.clientX >= rect2.left && e.clientX <= rect2.right; 
+    var validY = e.clientY >= rect2.top && e.clientY <= rect2.bottom; 
+    var valid = validY && validX && id == "equip" + step;
+
+    if (!valid)
+        putBack(last);
+    else {
+        followMouse(e);
+        e.target.classList.add("equipAnim");
+        for (let p of document.querySelectorAll(".particle")) {
+            if (last == 0)
+                p.style.backgroundColor = "deepskyblue";
+            else if (last == 1)
+                p.style.backgroundColor = "lightgrey";
+            else {
+                document.querySelector("#star").style.display = "block"
+                p.style.opacity = 0;
+            }
+        }
+    }
+}
+
+function followMouse(e) {
+    var rect = e.target.getBoundingClientRect();
+    e.target.style.left = e.pageX - rect.width * 0.5 + "px";
+    e.target.style.top = e.pageY- rect.height * 0.5 + "px";
+}
+function putBack(numEquip) {
+    var equipWidth = equipCells[0].querySelector("img").offsetWidth;
+    equips[numEquip].style.left = equipCells[numEquip].querySelector("img").offsetLeft + "px";
+    equips[numEquip].style.top = equipCells[numEquip].querySelector("img").offsetTop + "px";
+    equips[numEquip].style.width = equipWidth + "px";
+}
+
+//animations
 const animGrids = document.querySelectorAll(".animGrid");
 const clouds = document.querySelectorAll(".cloud");
 for (var i = 0; i < clouds.length; i++) {
@@ -589,11 +684,24 @@ for (var i = 0; i < clouds.length; i++) {
     cloud.style.gridArea = "2/" + (i + 2) + "/3/" + (i + 3);
     cloud.style.animationName = "cloud" + i;
 }
-function sizePg2Grid() {
-    for (let grid of animGrids) {
-        grid.style.height = grid.querySelector(".stainedCup").offsetHeight + "px";
+function sizeAlignPg2() {
+    for (var i = 0; i < equips.length; i++) {
+        putBack(i);
     }
 }
 function resetPg2() {
-    window.removeEventListener("resize", sizePg2Grid);
+    window.removeEventListener("resize", sizeAlignPg2);
+    resetCleaning();
 }
+
+
+//audio
+const bgm = document.querySelector("#bgm");
+bgm.loop = true;
+bgm.muted = true;
+function unmute() {
+    bgm.muted = false;
+    bgm.play();
+    document.removeEventListener("click", unmute);
+}
+document.addEventListener("click", unmute);
