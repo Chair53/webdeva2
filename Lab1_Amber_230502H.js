@@ -3,14 +3,16 @@
 /* Global variables */
 //target all elements to save to constants
 const mobile = window.innerWidth <= 800;
-var gameCtrlEvent;
+var gameCtrlEvent, dragEvent, dragendEvent;
 var colourNow = "purple"; //"pink" "blue"
 if (mobile) {
     document.querySelector("h3+ul").classList.add("collapsed");
-    gameCtrlEvent = "touchend";
+    gameCtrlEvent = dragendEvent = "touchend";
+    dragEvent = "touchmove";
 }
 else {
     gameCtrlEvent = "keyup";
+    dragEvent = "drag";
 }
 const settingsbtn = document.querySelector("#settings img");
 settingsbtn.addEventListener("click", function () {
@@ -623,7 +625,7 @@ for (var row = 0; row < 100 / stainSize; row++) {
 }
 
 for (let equip of equips) {
-    equip.addEventListener("drag", followMouse);
+    equip.addEventListener(dragEvent, followMouse);
     equip.addEventListener("animationstart", function (e) {
         e.target.removeEventListener("dragstart", followMouse);
     });
@@ -634,7 +636,7 @@ for (let equip of equips) {
         e.dataTransfer.setData("text", e.target.id);
         e.dataTransfer.setDragImage(e.target, window.outerWidth, window.outerHeight);
     });
-    equip.addEventListener("dragend", equipDragEnd);
+    equip.addEventListener(dragendEvent, equipDragEnd);
 }
 
 function equipDragEnd(e) {
@@ -642,8 +644,18 @@ function equipDragEnd(e) {
     var id = e.target.id;
     var last = id[id.length - 1]
 
-    var validX = e.clientX >= rect2.left && e.clientX <= rect2.right; 
-    var validY = e.clientY >= rect2.top && e.clientY <= rect2.bottom; 
+    var x, y;
+    if (mobile) {
+        x = changedTouches[0].clientX;
+        y = changedTouches[0].clientY;
+    }
+    else {
+        x = e.clientX;
+        y = e.clientX;
+    }
+
+    var validX = x >= rect2.left && x <= rect2.right; 
+    var validY = y >= rect2.top && y <= rect2.bottom; 
     var valid = validY && validX && id == "equip" + step;
 
     if (!valid)
@@ -666,8 +678,18 @@ function equipDragEnd(e) {
 
 function followMouse(e) {
     var rect = e.target.getBoundingClientRect();
-    e.target.style.left = e.pageX - rect.width * 0.5 + "px";
-    e.target.style.top = e.pageY- rect.height * 0.5 + "px";
+    var x, y;
+    if (mobile) {
+        x = touches[0].pageX;
+        y = touches[0].pageY;
+    }
+    else {
+        x = e.pageX;
+        y = e.pageY;
+    }
+
+    e.target.style.left = x - rect.width * 0.5 + "px";
+    e.target.style.top = y - rect.height * 0.5 + "px";
 }
 function putBack(numEquip) {
     var equipWidth = equipCells[0].querySelector("img").offsetWidth;
