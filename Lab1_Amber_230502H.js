@@ -646,8 +646,8 @@ function equipDragEnd(e) {
 
     var x, y;
     if (mobile) {
-        x = changedTouches[0].clientX;
-        y = changedTouches[0].clientY;
+        x = e.changedTouches[0].clientX;
+        y = e.changedTouches[0].clientY;
     }
     else {
         x = e.clientX;
@@ -680,9 +680,9 @@ function followMouse(e) {
     var rect = e.target.getBoundingClientRect();
     var x, y;
     if (mobile) {
-        x = touches[0].clientX;
+        x = e.touches[0].clientX;
         console.log(x);
-        y = touches[0].clientY;
+        y = e.touches[0].clientY;
     }
     else {
         x = e.pageX;
