@@ -680,8 +680,8 @@ function followMouse(e) {
     var rect = e.target.getBoundingClientRect();
     var x, y;
     if (mobile) {
-        x = touches[0].pageX;
-        y = touches[0].pageY;
+        x = touches[0].clientX;
+        y = touches[0].clientY;
     }
     else {
         x = e.pageX;
