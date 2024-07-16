@@ -663,7 +663,7 @@ function equipDragEnd(e) {
         putBack(last);
     else {
         console.log('a');
-        followMouse(e);
+        followMouse(e, true);
         e.target.classList.add("equipAnim");
         for (let p of document.querySelectorAll(".particle")) {
             if (last == 0)
@@ -678,13 +678,18 @@ function equipDragEnd(e) {
     }
 }
 
-function followMouse(e) {
+function followMouse(e, touchend=false) {
     var rect = e.target.getBoundingClientRect();
     var x, y;
     if (mobile) {
-        x = e.touches[0].pageX;
-        console.log(x);
-        y = e.touches[0].pageY;
+        if (touchend) {
+            x = e.changedTouches[0].pageX;
+            y = e.changedTouches[0].pageY;
+        }
+        else {
+            x = e.touches[0].pageX;
+            y = e.touches[0].pageY;
+        }
     }
     else {
         x = e.pageX;
