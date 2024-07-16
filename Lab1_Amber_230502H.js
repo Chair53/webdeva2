@@ -681,6 +681,7 @@ function followMouse(e) {
     var x, y;
     if (mobile) {
         x = touches[0].clientX;
+        console.log(x);
         y = touches[0].clientY;
     }
     else {
