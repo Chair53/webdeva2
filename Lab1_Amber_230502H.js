@@ -640,6 +640,7 @@ for (let equip of equips) {
 }
 
 function equipDragEnd(e) {
+    console.log(mobile);
     var rect2 = overlay.getBoundingClientRect();
     var id = e.target.id;
     var last = id[id.length - 1]
@@ -661,6 +662,7 @@ function equipDragEnd(e) {
     if (!valid)
         putBack(last);
     else {
+        console.log('a');
         followMouse(e);
         e.target.classList.add("equipAnim");
         for (let p of document.querySelectorAll(".particle")) {
