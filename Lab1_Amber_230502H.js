@@ -13,6 +13,7 @@ if (mobile) {
 else {
     gameCtrlEvent = "keyup";
     dragEvent = "drag";
+    dragendEvent = "dragend";
 }
 const settingsbtn = document.querySelector("#settings img");
 settingsbtn.addEventListener("click", function () {
@@ -333,7 +334,6 @@ function gameWinLose() {
         //do any blocks have adjacent identical values?
         for (let b of blocks) {
             if (b.currValue >= 2048) {
-                console.log("win");
                 win = true;
                 break;
             }
@@ -343,8 +343,6 @@ function gameWinLose() {
                 if (b.value == otherB.value
                     && ((Math.abs(b.x - otherB.x) == 1 && otherB.y == b.y)
                         || (Math.abs(b.y - otherB.y) == 1 && otherB.x == b.x))) {
-                    console.log(b);
-                    console.log(otherB);
                     lose = false;
                     break;
                 }
@@ -359,7 +357,6 @@ function gameWinLose() {
         goScreen.classList.remove("hideGameOver");
         goScreen.classList.add("showGameOver");
         if (lose) {
-            console.log(blocks.length);
             goTxt.style.color = "rgb(255,0,0)";
             goTxt.innerHTML = "Game Over";
         }
@@ -640,7 +637,6 @@ for (let equip of equips) {
 }
 
 function equipDragEnd(e) {
-    console.log(mobile);
     var rect2 = overlay.getBoundingClientRect();
     var id = e.target.id;
     var last = id[id.length - 1]
@@ -652,17 +648,26 @@ function equipDragEnd(e) {
     }
     else {
         x = e.clientX;
-        y = e.clientX;
+        y = e.clientY;
     }
 
     var validX = x >= rect2.left && x <= rect2.right; 
     var validY = y >= rect2.top && y <= rect2.bottom; 
     var valid = validY && validX && id == "equip" + step;
+    if (step == 2) {
+        var cleanedAll = true;
+        for (let p of document.querySelectorAll(".particle")) {
+            if (p.style.opacity != 0) {
+                cleanedAll = false;
+                break;
+            }
+        }
+        valid = valid && cleanedAll;
+    }
 
     if (!valid)
         putBack(last);
     else {
-        console.log('a');
         followMouse(e, true);
         e.target.classList.add("equipAnim");
         for (let p of document.querySelectorAll(".particle")) {
@@ -672,7 +677,8 @@ function equipDragEnd(e) {
                 p.style.backgroundColor = "lightgrey";
             else {
                 document.querySelector("#star").style.display = "block"
-                p.style.opacity = 0;
+                break;
+/*                p.style.opacity = 0;*/
             }
         }
     }
@@ -698,7 +704,28 @@ function followMouse(e, touchend=false) {
 
     e.target.style.left = x - rect.width * 0.5 + "px";
     e.target.style.top = y - rect.height * 0.5 + "px";
+
+    if (e.target.id == "equip2" && step == 2)
+        cleanStain();
 }
+
+function cleanStain() {
+    var spongeRect = document.querySelector("#equip2").getBoundingClientRect();
+    var allowance = Math.max(window.innerWidth, window.innerHeight) * 0.05;
+    for (let p of document.querySelectorAll(".particle")) {
+        var x = p.getBoundingClientRect().x;
+        var y = p.getBoundingClientRect().y;
+        var diffX1 = Math.abs(x - spongeRect.x);
+        var diffY1 = Math.abs(y - spongeRect.y);
+        var diffX2 = Math.abs(x - (spongeRect.x + spongeRect.width));
+        var diffY2 = Math.abs(y - (spongeRect.y + spongeRect.height));
+        var diffX = Math.min(diffX1, diffX2);
+        var diffY = Math.min(diffY1, diffY2);
+        if (diffX <= allowance && diffY <= allowance)
+            p.style.opacity = 0;
+    }
+}
+
 function putBack(numEquip) {
     var equipWidth = equipCells[0].querySelector("img").offsetWidth;
     equips[numEquip].style.left = equipCells[numEquip].querySelector("img").offsetLeft + "px";

@@ -793,7 +793,7 @@ ol li:nth-child(4) .animGrid {
 }
 @keyframes star{
     0%{transform:rotateZ(-45deg);}
-    50%{transform:rotateZ(0deg);}
+    50%{transform:rotateZ(45deg);}
     100%{transform:rotateZ(-45deg);}
 }
 
