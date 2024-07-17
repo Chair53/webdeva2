@@ -825,9 +825,9 @@ ol li:nth-child(4) .animGrid {
     border-radius: 6px;
     width: 20vw;
 }
-@media screen and (max-width:800){
+@media screen and (max-width:800px){
     #options{
-        width:40vw;
+        width:20vh;
     }
 }
 
