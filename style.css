@@ -15,12 +15,6 @@ body {
     padding: 0;
     overflow-x: hidden;
 }
-/*@media screen and (max-width:800px)
-{
-    body{
-        background-size:100%100vh;
-    }
-}*/
 
 .button {
     width: 50%;
@@ -833,7 +827,7 @@ ol li:nth-child(4) .animGrid {
 }
 @media screen and (max-width:800){
     #options{
-        width:20vh;
+        width:40vw;
     }
 }
 
