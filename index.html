@@ -13,17 +13,17 @@
     <meta name="apple-mobile-web-app-title" content="Tea">
 
     <!-- favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <link rel="manifest" href="favicon/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+    <link rel="manifest" href="icons/site.webmanifest">
 
-    <link rel="stylesheet" href="Lab1_Amber_230502H.css">
-    <script src="Lab1_Amber_230502H.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body class="colourable">
     <audio id="bgm">
-        <source src="yume_no_kissaten_mitsukiyo.mp3" type="audio/mpeg">
+        <source src="music/yume_no_kissaten_mitsukiyo.mp3" type="audio/mpeg">
         Debug no audio
     </audio>
 
@@ -39,15 +39,15 @@
                 <h3 class="colourable" id="hamIcon"><u>Menu</u></h3>
                 <ul class="w100">
                     <li id="page1btn">
-                        <img src="img/button.png" alt="button icon" class="button" />
+                        <img src="image/button.png" alt="button icon" class="button" />
                         <p class="colourable">Teas</p>
                     </li>
                     <li id="page2btn">
-                        <img src="img/button.png" alt="button icon" class="button" />
+                        <img src="image/button.png" alt="button icon" class="button" />
                         <p class="colourable">Destain</p>
                     </li>
                     <li id="page3btn">
-                        <img src="img/button.png" alt="button icon" class="button" />
+                        <img src="image/button.png" alt="button icon" class="button" />
                         <p class="colourable">Game</p>
                     </li>
                 </ul>
@@ -61,7 +61,7 @@
             <div class="showFlex flex w100 collapsable">
                 <div>
                     <u class="colourable">Gyokuro</u>
-                    <img src="img/gyokuro.jpg" alt="goykuro tea" class="w100" />
+                    <img src="image/gyokuro.jpg" alt="goykuro tea" class="w100" />
                     <p class="colourable">
                         A type of shaded green tea from Japan.
                         The leaves are almost completely shaded from sunlight for about 20 days
@@ -78,7 +78,7 @@
 
                 <div>
                     <u class="colourable">Genmaicha</u>
-                    <img src="img/genmaicha.jpg" alt="genmaicha tea" class="w100" />
+                    <img src="image/genmaicha.jpg" alt="genmaicha tea" class="w100" />
                     <p class="colourable">
                         A Japanese tea consisting of green tea mixed with roasted popped brown rice.
                         Some rice grains pop during the roasting process and look like popcorn. <br /><br />
@@ -97,7 +97,7 @@
             <div class="showFlex flex w100 collapsable">
                 <div>
                     <u class="colourable">Tie Guan Yin</u>
-                    <img src="img/tie_guan_yin.jpg" alt="tie guan yin tea" class="w100" />
+                    <img src="image/tie_guan_yin.jpg" alt="tie guan yin tea" class="w100" />
                     <p class="colourable">
                         A tea named after the Chinese Goddess of mercy, Guanyin.
                         Sometimes, the leaves may go through a roasting and scenting process after drying.<br /><br />
@@ -113,7 +113,7 @@
 
                 <div>
                     <u class="colourable">Jin Xuan</u>
-                    <img src="img/jin_xuan.jpg" alt="jin xuan tea" class="w100" />
+                    <img src="image/jin_xuan.jpg" alt="jin xuan tea" class="w100" />
                     <p class="colourable">
                         A tea from Taiwan that has some taste enhancement due to oxidisation.
                         The yield is around 20% higher than other traditional tea varieties.<br /><br />
@@ -132,7 +132,7 @@
             <div class="showFlex flex w100 collapsable">
                 <div>
                     <u class="colourable">Ginger Tea</u>
-                    <img src="img/ginger.jpg" alt="ginger tea" class="w100" />
+                    <img src="image/ginger.jpg" alt="ginger tea" class="w100" />
                     <p class="colourable">
                         A tea made from ginger root, often paired with things like tumeric, lemon, or honey.
                         It has a history as herbal medicine used in various parts of Asia.<br /><br />
@@ -148,7 +148,7 @@
 
                 <div>
                     <u class="colourable">Roselle Tea</u>
-                    <img src="img/roselle.jpg" alt="rosele tea" class="w100" />
+                    <img src="image/roselle.jpg" alt="rosele tea" class="w100" />
                     <p class="colourable">
                         A sour tea made from roselle flowers, which are native to Africa, and cultivated in tropical regions.
                         Also known as hibiscus tea or red sorrel tea.<br /><br />
@@ -175,9 +175,9 @@
                     <li>
                         <h3 class="colourable">Wet the stained areas with water</h3>
                         <div class="animGrid autoMargin">
-                            <img src="img/stained.jpg" alt="stained cup" class="stainedCup" />
-                            <img src="img/water.png" alt="water" id="water" class="pg2Anim" />
-                            <img src="img/waterdrop.png" alt="waterdrop" id="waterdrop" class="pg2Anim" />
+                            <img src="image/stained.jpg" alt="stained cup" class="stainedCup" />
+                            <img src="image/water.png" alt="water" id="water" class="pg2Anim" />
+                            <img src="image/waterdrop.png" alt="waterdrop" id="waterdrop" class="pg2Anim" />
                         </div>
                         <p class="colourable">
                             Water will help the cleaning agent stick to areas of the
@@ -187,12 +187,12 @@
                     <li>
                         <h3 class="colourable">Cover the stained areas with baking soda</h3>
                         <div class="animGrid autoMargin">
-                            <img src="img/stained.jpg" alt="stained cup" class="stainedCup" />
-                            <img src="img/bakingsoda.png" alt="baking soda" id="bakingsoda" class="pg2Anim" />
-                            <img src="img/cloud.png" alt="baking soda cloud" class="pg2Anim cloud" />
-                            <img src="img/cloud.png" alt="baking soda cloud" class="pg2Anim cloud" />
-                            <img src="img/cloud.png" alt="baking soda cloud" class="pg2Anim cloud" />
-                            <img src="img/cloud.png" alt="baking soda cloud" class="pg2Anim cloud" />
+                            <img src="image/stained.jpg" alt="stained cup" class="stainedCup" />
+                            <img src="image/bakingsoda.png" alt="baking soda" id="bakingsoda" class="pg2Anim" />
+                            <img src="image/cloud.png" alt="baking soda cloud" class="pg2Anim cloud" />
+                            <img src="image/cloud.png" alt="baking soda cloud" class="pg2Anim cloud" />
+                            <img src="image/cloud.png" alt="baking soda cloud" class="pg2Anim cloud" />
+                            <img src="image/cloud.png" alt="baking soda cloud" class="pg2Anim cloud" />
                         </div>
                         <p class="colourable">
                             Baking soda is an alkali and reacts with the acidic stains,
@@ -202,10 +202,10 @@
                     <li>
                         <h3 class="colourable">Leave for 2 hours</h3>
                         <div class="animGrid autoMargin">
-                            <img src="img/stained.jpg" alt="stained cup" class="stainedCup pg2Anim" />
+                            <img src="image/stained.jpg" alt="stained cup" class="stainedCup pg2Anim" />
                             <div class="pg2Anim" id="clock">
-                                <img src="img/clock.png" alt="timer" id="timer" />
-                                <img src="img/clockhand.png" alt="timerhand" id="timerhand" />
+                                <img src="image/clock.png" alt="timer" id="timer" />
+                                <img src="image/clockhand.png" alt="timerhand" id="timerhand" />
                             </div>
                         </div>
                         <p class="colourable">
@@ -215,8 +215,8 @@
                     <li>
                         <h3 class="colourable">Scrub off the baking soda and wash the cup normally</h3>
                         <div class="animGrid autoMargin">
-                            <img src="img/stained.jpg" alt="stained cup" class="stainedCup" />
-                            <img src="img/sponge.png" alt="sponge" class="pg2Anim" id="sponge" />
+                            <img src="image/stained.jpg" alt="stained cup" class="stainedCup" />
+                            <img src="image/sponge.png" alt="sponge" class="pg2Anim" id="sponge" />
                         </div>
                         <p class="colourable">
                             The stain will be lighter. Repeat the process to lighten the stain until it is gone.
@@ -227,24 +227,24 @@
                 <h3 class="colourable">Try it yourself</h3>
                 <div class="w100"></div>
                 <div class="animGrid autoMargin" id="cleanGrid">
-                    <img src="img/stained.jpg" alt="stained cup" class="stainedCup" />
+                    <img src="image/stained.jpg" alt="stained cup" class="stainedCup" />
                     <div id="stainOverlay"></div>
-                    <img src="img/star.png" alt="well done" id="star" />
+                    <img src="image/star.png" alt="well done" id="star" />
                 </div>
                 <div id="equipment" class="autoMargin colourable">
                     <div class="equipCell colourable">
-                        <img src="img/water.png" alt="water"/>
+                        <img src="image/water.png" alt="water"/>
                     </div>
                     <div class="equipCell colourable">
-                        <img src="img/bakingsoda.png" alt="baking soda"/>
+                        <img src="image/bakingsoda.png" alt="baking soda"/>
                     </div>
                     <div class="equipCell colourable">
-                        <img src="img/sponge.png" alt="sponge"/>
+                        <img src="image/sponge.png" alt="sponge"/>
                     </div>
                 </div>
-                <img src="img/water.png" alt="water" id="equip0" class="equip" />
-                <img src="img/bakingsoda.png" alt="baking soda" id="equip1" class="equip" />
-                <img src="img/sponge.png" alt="sponge" id="equip2" class="equip" />
+                <img src="image/water.png" alt="water" id="equip0" class="equip" />
+                <img src="image/bakingsoda.png" alt="baking soda" id="equip1" class="equip" />
+                <img src="image/sponge.png" alt="sponge" id="equip2" class="equip" />
 
             </div>
         </div>
@@ -277,9 +277,13 @@
         </div>
     </div>
     <div id="settings">
-        <img src="img/settings.png" alt="settings" />
+        <img src="image/settings.png" alt="settings" />
     </div>
     <div id="options" class="collapsed">
+        <div id="ctrls">
+            <img src="image/mute.png" alt="muted" id="soundCtrl" />
+            <img src="image/minimise.png" alt="minimised" id="screenCtrl" />
+        </div>
         <h3>Theme</h3>
         <form id="theme">
             <label for="purple" class="purple">Purple</label>
