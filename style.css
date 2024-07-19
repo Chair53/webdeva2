@@ -22,7 +22,6 @@ body {
 }
 
     .button ~ p {
-        text-align: center;
         margin-top: 16%;
     }
 
@@ -34,7 +33,6 @@ body {
 header {
     height: 7%;
     width: 100%;
-    text-align: center;
 }
 
     header > #title {
@@ -44,37 +42,32 @@ header {
 footer {
     padding: 2vh 0 2vh 0;
     align-content: center;
-    text-align: center;
     position: sticky;
     bottom: 0;
     width: 100%;
+    height:min-content;
 }
 
-    button {
-        height: 4vh;
-        padding-left: 1vw;
-        padding-right: 1vw;
-        border-radius: 6px;
-        box-shadow: rgba(0,0,0,0.4) 0.2vw 0.4vh;
-        position:relative;
-        left:0;
-        top:0;
-        transition:left 0.2s ease-in, top 0.2s ease-in;
-    }
-
-    .buttonClick{
-        box-shadow:none;
-        left:0.2vw;
-        top:0.4vh;
-        color:white;
-    }
-
-.minWidth {
-    width: max-content;
+button {
+    height: 4vh;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    border-radius: 6px;
+    box-shadow: rgba(0,0,0,0.4) 0.2vw 0.4vh;
+    left: 0;
+    top: 0;
+    transition: left 0.2s ease-in, top 0.2s ease-in;
 }
 
-.minHeight {
-    height: min-content;
+.buttonClick {
+    box-shadow: none;
+    left: 0.2vw;
+    top: 0.4vh;
+    color: white;
+}
+
+.relative{
+    position: relative;
 }
 
 .autoMargin {
@@ -90,7 +83,7 @@ footer {
     width: 100%;
 }
 
-.flex {
+.flexwrap {
     flex-wrap: wrap;
 }
 
@@ -125,8 +118,6 @@ footer {
     }
 
 nav ul {
-    display: flex;
-    flex-wrap: wrap;
     padding-left: 0;
     padding-right: 0;
     justify-content: space-around;
@@ -135,7 +126,6 @@ nav ul {
     nav ul li {
         display: inline-grid;
         max-width: 30%;
-        text-align: center;
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
     }
@@ -148,7 +138,6 @@ nav ul {
     width: 100vw;
     height: 100vh;
     border: none;
-    text-align: center;
     align-content: center;
 }
 
@@ -181,7 +170,6 @@ nav ul {
     }
     /* unhide menu icon */
     nav ul {
-        /*display: none;*/
         max-height: 0;
         overflow: clip;
     }
@@ -205,11 +193,11 @@ nav ul {
         flex-basis: 40%;
     }
 
-    @media screen and (max-width:800px){
-        #page1>div>div{
-            flex-basis:90%;
-        }
+@media screen and (max-width:800px) {
+    #page1 > div > div {
+        flex-basis: 90%;
     }
+}
 
 #page1 > h3, #page2 > h3 {
     margin: 0;
@@ -253,8 +241,11 @@ nav ul {
     width: 80vh;
     height: 80vh;
 }
-#board, #equipment {
+
+#board, #equipment, .animGrid, #theme {
     display: grid;
+}
+#board, #equipment {
     gap: 1.6vh;
     border-width: 1.6vh;
     border-style: solid;
@@ -267,7 +258,7 @@ nav ul {
         width: 80vw;
         height: 80vw;
         gap: 1.6vw;
-        border-width:1.6vw;
+        border-width: 1.6vw;
     }
 }
 
@@ -308,24 +299,26 @@ nav ul {
 #gameOver {
     transition: opacity ease-in-out 2s;
     grid-area: 1/1/5/5;
-    z-index:4000;
-    justify-content:center;
-    align-content:center;
+    z-index: 4000;
+    justify-content: center;
+    align-content: center;
 }
 
 .showGameOver {
     opacity: 1;
 }
-.showGameOver button{
-    display:block;
-}
+
+    .showGameOver button {
+        display: block;
+    }
 
 .hideGameOver {
     opacity: 0;
 }
-.hideGameOver button{
-    display:none;
-}
+
+    .hideGameOver button {
+        display: none;
+    }
 
 /*page 2*/
 #page2 > .flex {
@@ -342,14 +335,10 @@ nav ul {
     }
 
 .animGrid {
-    display: grid;
     width: 80%;
 }
-.stainedCup{
-    width:100%;
-}
 
-ol li:nth-child(1) .animGrid{
+ol li:nth-child(1) .animGrid {
     grid-template-columns: 2fr 3fr 2fr;
     grid-template-rows: 4fr 3fr 2fr;
 }
@@ -357,10 +346,6 @@ ol li:nth-child(1) .animGrid{
     ol li:nth-child(1) .animGrid .stainedCup, #cleanGrid .stainedCup {
         grid-area: 1/1/4/4;
     }
-
-.pg2Anim {
-    position: relative;
-}
 
 #water {
     animation: waterAnim 2s linear 0s infinite;
@@ -417,6 +402,7 @@ ol li:nth-child(1) .animGrid{
     margin-left: auto;
     animation: waterdropAnim 2s linear infinite;
 }
+
 #waterdrop, #stainOverlay, #star {
     grid-area: 2/2/3/3;
 }
@@ -659,13 +645,11 @@ ol li:nth-child(3) .animGrid {
 
 #timer {
     width: 65%;
-    position: relative;
     left: 17%;
 }
 
 #timerhand {
     width: 25%;
-    position: relative;
     top: -47.3%;
     left: -28.3%;
     animation-name: hourHand;
@@ -740,66 +724,89 @@ ol li:nth-child(4) .animGrid {
     }
 }
 /*p2 interactable*/
-#cleanGrid{
-    grid-template-rows:7fr 7fr 2fr;
-    grid-template-columns:6fr 3fr 5fr;
+#cleanGrid {
+    grid-template-rows: 7fr 7fr 2fr;
+    grid-template-columns: 6fr 3fr 5fr;
 }
 
-.particle{
-    position:absolute;
-    width:5%;
-    height:5%;
-    opacity:0.5;
+.particle {
+    position: absolute;
+    width: 5%;
+    height: 5%;
+    opacity: 0.5;
     transition: background-color 0.2s, opacity 0.2s;
 }
-#stainOverlay{
-    width:100%;
-    height:100%;
-    position:relative;
+
+#stainOverlay {
+    height: 100%;
 }
-#equipment{
-    margin-top:7%;
+
+#equipment {
+    margin-top: 7%;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows:1fr;
-    width:80%;
-    align-content:center;
+    grid-template-rows: 1fr;
+    width: 80%;
+    align-content: center;
 }
+
 .equipCell {
-    width: 100%;
-    display: flex;
     align-items: center;
 }
-.equipCell img{
-    width:100%;
-    visibility:hidden;
-}
+
+    .equipCell img {
+        visibility: hidden;
+    }
+
 @media screen and (max-width:800px) {
     #equipment {
-        width:100%;
+        width: 100%;
     }
 }
-.equip{
-    position:absolute;
+
+.equip {
+    position: absolute;
 }
-.equipAnim{
-    pointer-events:none;
+
+.equipAnim {
+    pointer-events: none;
     animation: equip 1s ease-in;
-    animation-fill-mode:forwards;
+    animation-fill-mode: forwards;
 }
-@keyframes equip{
-    0%{opacity:1; display:block;}
-    99%{opacity:0;display:block;}
-    100%{opacity:0;display:block;}
+
+@keyframes equip {
+    0% {
+        opacity: 1;
+        display: block;
+    }
+
+    99% {
+        opacity: 0;
+        display: block;
+    }
+
+    100% {
+        opacity: 0;
+        display: block;
+    }
 }
-#star{
-    width:100%;
-    animation:star 2s infinite;
-    display:none;
+
+#star {
+    animation: star 2s infinite;
+    display: none;
 }
-@keyframes star{
-    0%{transform:rotateZ(-45deg);}
-    50%{transform:rotateZ(45deg);}
-    100%{transform:rotateZ(-45deg);}
+
+@keyframes star {
+    0% {
+        transform: rotateZ(-45deg);
+    }
+
+    50% {
+        transform: rotateZ(45deg);
+    }
+
+    100% {
+        transform: rotateZ(-45deg);
+    }
 }
 
 /*settings*/
@@ -813,10 +820,6 @@ ol li:nth-child(4) .animGrid {
     z-index: 2;
 }
 
-    #settings img {
-        width: 100%;
-    }
-
 #options {
     bottom: 7.8vh;
     right: 0;
@@ -825,23 +828,19 @@ ol li:nth-child(4) .animGrid {
     border-radius: 6px;
     width: 20vw;
 }
-@media screen and (max-width:800px){
-    #options{
-        width:20vh;
+
+@media screen and (max-width:800px) {
+    #options {
+        width: 20vh;
     }
 }
 
-    #options.collapsable {
-        padding: 2%;
-        border: 3px solid grey;
-    }
-
-    #options h3 {
-        text-align: center;
-    }
+#options.collapsable {
+    padding: 2%;
+    border: 3px solid grey;
+}
 
 #theme {
-    display: grid;
     grid-template-rows: 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr;
 }
@@ -860,26 +859,28 @@ ol li:nth-child(4) .animGrid {
         width: 3vh;
         grid-area: auto/2/auto/3;
     }
+
     #theme .purple {
         accent-color: #C072D4;
         color: #C072D4;
     }
+
     #theme .blue {
         accent-color: #0093FF;
         color: #0093FF;
     }
+
     #theme .pink {
         accent-color: #F055B1;
         color: #F055B1;
     }
-    #ctrls{
-        display:flex;
-        width:100%;
-        justify-content:space-evenly;
-        flex-wrap:wrap;
-    }
-#soundCtrl, #screenCtrl{
-    width:40%;
+
+#ctrls {
+    justify-content: space-evenly;
+}
+
+#soundCtrl, #screenCtrl {
+    width: 30%;
 }
 
 @media screen and (max-width:800px) {
@@ -887,8 +888,9 @@ ol li:nth-child(4) .animGrid {
         width: 3vw;
         height: 3vw;
     }
+
     #soundCtrl, #screenCtrl {
-        width: 90%;
+        width: 51%;
     }
 }
 
@@ -910,19 +912,24 @@ h1.colourable.purple, h2.colourable.purple {
     border-left: 2px solid #C1A9C6;
     border-right: 2px solid #C1A9C6;
 }
+
 body.colourable.purple {
     background-image: url("image/bgpurple.jpg");
 }
+
 header.colourable.purple {
     background-color: #C1A9C6;
 }
+
 footer.colourable.purple {
     background-color: #947D99;
 }
+
 #board.colourable.purple, #equipment.colourable.purple {
     background-color: #947D99;
     border-color: #947D99;
 }
+
 .cell.colourable.purple, #gameOver.colourable.purple, .equipCell.colourable.purple {
     background-color: #39263E;
 }
@@ -1007,13 +1014,14 @@ footer.colourable.pink {
 }
 
 /*fonts*/
-h1, h2{
-    font-family:'Lucida Calligraphy', 'Lucida Handwriting', 'Brush Script MT', cursive;
+h1, h2 {
+    font-family: 'Lucida Calligraphy', 'Lucida Handwriting', 'Brush Script MT', cursive;
 }
-h3,p,u,li,button,label{
+
+h3, p, u, li, button, label {
     font-family: Georgia;
 }
 
-#bgm{
-    display:none;
+#bgm {
+    display: none;
 }

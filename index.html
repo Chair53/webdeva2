@@ -27,27 +27,27 @@
         Debug no audio
     </audio>
 
-    <header class="showBlock colourable">
+    <header class="showBlock colourable centerTxt">
         <h1 id="title" class="colourable">Tea</h1>
     </header>
     <div id="pagecontainer" class="autoMargin">
         <!-- Cover page -->
-        <div class="page showBlock" id="page0">
+        <div class="page showBlock centerTxt" id="page0">
             <h2 class="colourable">~Boil some tea, Check out this site~</h2>
             <nav class="w100 autoMargin">
                 <!--menu systtm-->
                 <h3 class="colourable" id="hamIcon"><u>Menu</u></h3>
-                <ul class="w100">
-                    <li id="page1btn">
-                        <img src="image/button.png" alt="button icon" class="button" />
+                <ul class="w100 showFlex flexwrap">
+                    <li id="page1btn" class="centerTxt">
+                        <img src="image/button.png" alt="button icon" class="button centerTxt" />
                         <p class="colourable">Teas</p>
                     </li>
-                    <li id="page2btn">
-                        <img src="image/button.png" alt="button icon" class="button" />
+                    <li id="page2btn" class="centerTxt">
+                        <img src="image/button.png" alt="button icon" class="button centerTxt" />
                         <p class="colourable">Destain</p>
                     </li>
-                    <li id="page3btn">
-                        <img src="image/button.png" alt="button icon" class="button" />
+                    <li id="page3btn" class="centerTxt">
+                        <img src="image/button.png" alt="button icon" class="button centerTxt" />
                         <p class="colourable">Game</p>
                     </li>
                 </ul>
@@ -58,7 +58,7 @@
             <h2 class="colourable"><u>Types Of Tea</u></h2>
             <h3>Green Tea</h3>
             <!-- transition this height -->
-            <div class="showFlex flex w100 collapsable">
+            <div class="showFlex flexwrap w100 collapsable">
                 <div>
                     <u class="colourable">Gyokuro</u>
                     <img src="image/gyokuro.jpg" alt="goykuro tea" class="w100" />
@@ -94,7 +94,7 @@
             </div>
             <h3>Oolong Tea</h3>
             <!-- transition this height -->
-            <div class="showFlex flex w100 collapsable">
+            <div class="showFlex flexwrap w100 collapsable">
                 <div>
                     <u class="colourable">Tie Guan Yin</u>
                     <img src="image/tie_guan_yin.jpg" alt="tie guan yin tea" class="w100" />
@@ -129,7 +129,7 @@
             </div>
             <h3>Herbal Tea</h3>
             <!-- transition this height -->
-            <div class="showFlex flex w100 collapsable">
+            <div class="showFlex flexwrap w100 collapsable">
                 <div>
                     <u class="colourable">Ginger Tea</u>
                     <img src="image/ginger.jpg" alt="ginger tea" class="w100" />
@@ -166,7 +166,7 @@
         <!-- How to clean tea stains -->
         <div class="page hideBlock colourable" id="page2">
             <h2 class="colourable"><u>How to clean tea stains</u></h2>
-            <div class="showFlex flex autoMargin">
+            <div class="showFlex flexwrap autoMargin">
                 <p class="colourable">
                     Tea leaves stubborn stains because it naturally contains tannin, which is used in dyes.
                     But don't worry if your cup stains, just follow these steps to clean it:
@@ -175,9 +175,9 @@
                     <li>
                         <h3 class="colourable">Wet the stained areas with water</h3>
                         <div class="animGrid autoMargin">
-                            <img src="image/stained.jpg" alt="stained cup" class="stainedCup" />
-                            <img src="image/water.png" alt="water" id="water" class="pg2Anim" />
-                            <img src="image/waterdrop.png" alt="waterdrop" id="waterdrop" class="pg2Anim" />
+                            <img src="image/stained.jpg" alt="stained cup" class="stainedCup w100" />
+                            <img src="image/water.png" alt="water" id="water" class="pg2Anim relative" />
+                            <img src="image/waterdrop.png" alt="waterdrop" id="waterdrop" class="pg2Anim relative" />
                         </div>
                         <p class="colourable">
                             Water will help the cleaning agent stick to areas of the
@@ -187,12 +187,12 @@
                     <li>
                         <h3 class="colourable">Cover the stained areas with baking soda</h3>
                         <div class="animGrid autoMargin">
-                            <img src="image/stained.jpg" alt="stained cup" class="stainedCup" />
-                            <img src="image/bakingsoda.png" alt="baking soda" id="bakingsoda" class="pg2Anim" />
-                            <img src="image/cloud.png" alt="baking soda cloud" class="pg2Anim cloud" />
-                            <img src="image/cloud.png" alt="baking soda cloud" class="pg2Anim cloud" />
-                            <img src="image/cloud.png" alt="baking soda cloud" class="pg2Anim cloud" />
-                            <img src="image/cloud.png" alt="baking soda cloud" class="pg2Anim cloud" />
+                            <img src="image/stained.jpg" alt="stained cup" class="stainedCup w100" />
+                            <img src="image/bakingsoda.png" alt="baking soda" id="bakingsoda" class="pg2Anim relative" />
+                            <img src="image/cloud.png" alt="baking soda cloud" class="pg2Anim relative cloud" />
+                            <img src="image/cloud.png" alt="baking soda cloud" class="pg2Anim relative cloud" />
+                            <img src="image/cloud.png" alt="baking soda cloud" class="pg2Anim relative cloud" />
+                            <img src="image/cloud.png" alt="baking soda cloud" class="pg2Anim relative cloud" />
                         </div>
                         <p class="colourable">
                             Baking soda is an alkali and reacts with the acidic stains,
@@ -202,10 +202,10 @@
                     <li>
                         <h3 class="colourable">Leave for 2 hours</h3>
                         <div class="animGrid autoMargin">
-                            <img src="image/stained.jpg" alt="stained cup" class="stainedCup pg2Anim" />
-                            <div class="pg2Anim" id="clock">
-                                <img src="image/clock.png" alt="timer" id="timer" />
-                                <img src="image/clockhand.png" alt="timerhand" id="timerhand" />
+                            <img src="image/stained.jpg" alt="stained cup" class="stainedCup w100 pg2Anim relative" />
+                            <div class="pg2Anim relative" id="clock">
+                                <img src="image/clock.png" alt="timer" id="timer" class="relative" />
+                                <img src="image/clockhand.png" alt="timerhand" id="timerhand" class="relative" />
                             </div>
                         </div>
                         <p class="colourable">
@@ -215,8 +215,8 @@
                     <li>
                         <h3 class="colourable">Scrub off the baking soda and wash the cup normally</h3>
                         <div class="animGrid autoMargin">
-                            <img src="image/stained.jpg" alt="stained cup" class="stainedCup" />
-                            <img src="image/sponge.png" alt="sponge" class="pg2Anim" id="sponge" />
+                            <img src="image/stained.jpg" alt="stained cup" class="stainedCup w100" />
+                            <img src="image/sponge.png" alt="sponge" class="pg2Anim relative" id="sponge" />
                         </div>
                         <p class="colourable">
                             The stain will be lighter. Repeat the process to lighten the stain until it is gone.
@@ -227,19 +227,19 @@
                 <h3 class="colourable">Try it yourself</h3>
                 <div class="w100"></div>
                 <div class="animGrid autoMargin" id="cleanGrid">
-                    <img src="image/stained.jpg" alt="stained cup" class="stainedCup" />
-                    <div id="stainOverlay"></div>
-                    <img src="image/star.png" alt="well done" id="star" />
+                    <img src="image/stained.jpg" alt="stained cup" class="stainedCup w100" />
+                    <div id="stainOverlay" class="w100 relative"></div>
+                    <img src="image/star.png" alt="well done" id="star" class="w100" />
                 </div>
                 <div id="equipment" class="autoMargin colourable">
-                    <div class="equipCell colourable">
-                        <img src="image/water.png" alt="water"/>
+                    <div class="equipCell showFlex w100 colourable">
+                        <img src="image/water.png" alt="water" class="w100"/>
                     </div>
-                    <div class="equipCell colourable">
-                        <img src="image/bakingsoda.png" alt="baking soda"/>
+                    <div class="equipCell showFlex w100 colourable">
+                        <img src="image/bakingsoda.png" alt="baking soda" class="w100"/>
                     </div>
-                    <div class="equipCell colourable">
-                        <img src="image/sponge.png" alt="sponge"/>
+                    <div class="equipCell showFlex w100 colourable">
+                        <img src="image/sponge.png" alt="sponge" class="w100"/>
                     </div>
                 </div>
                 <img src="image/water.png" alt="water" id="equip0" class="equip" />
@@ -268,23 +268,23 @@
                 <div class="cell colourable"></div>
                 <div class="cell colourable"></div>
                 <div class="cell colourable"></div>
-                <div id="gameOver" class="hideGameOver showFlex flex colourable">
+                <div id="gameOver" class="hideGameOver showFlex flexwrap colourable">
                     <h3></h3>
                     <div class="w100"></div>
-                    <button class="colourable">Replay</button>
+                    <button class="colourable relative">Replay</button>
                 </div>
             </div>
         </div>
     </div>
     <div id="settings">
-        <img src="image/settings.png" alt="settings" />
+        <img src="image/settings.png" alt="settings" class="w100" />
     </div>
     <div id="options" class="collapsed">
-        <div id="ctrls">
+        <div id="ctrls" class="w100 showFlex flexwrap">
             <img src="image/mute.png" alt="muted" id="soundCtrl" />
             <img src="image/minimise.png" alt="minimised" id="screenCtrl" />
         </div>
-        <h3>Theme</h3>
+        <h3 class="centerTxt">Theme</h3>
         <form id="theme">
             <label for="purple" class="purple">Purple</label>
             <input name="colour" id="purple" value="purple" type="radio" checked="checked" class="purple">
@@ -294,8 +294,8 @@
             <input name="colour" id="blue" value="blue" type="radio" class="blue">
         </form>
     </div>
-    <footer class="showBlock minHeight colourable">
-        <button class="colourable">Home</button>
+    <footer class="showBlock minHeight colourable centerTxt">
+        <button class="colourable relative">Home</button>
     </footer>
 </body>
 

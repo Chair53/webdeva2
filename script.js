@@ -1,7 +1,6 @@
 // JavaScript source code
 
 /* Global variables */
-//target all elements to save to constants
 const mobile = window.innerWidth <= 800;
 var gameCtrlEvent, dragEvent, dragendEvent;
 var colourNow = "purple"; //"pink" "blue"
@@ -15,35 +14,26 @@ else {
     dragEvent = "drag";
     dragendEvent = "dragend";
 }
+var mouseoverEvent;
+if (mobile)
+    mouseoverEvent = "touchstart";
+else
+    mouseoverEvent = "mouseover";
 const settingsbtn = document.querySelector("#settings img");
+settingsbtn.setAttribute("draggable", false);
 const soundCtrl = document.querySelector("#soundCtrl");
 const screenCtrl = document.querySelector("#screenCtrl");
+const canFull = document.documentElement.requestFullscreen;
 
-settingsbtn.addEventListener("click", function () {
-    document.querySelector("#options").classList.toggle("collapsed");
-    document.querySelector("#options").classList.toggle("collapsable");
-});
 const colourables = document.querySelectorAll(".colourable");
 //Setting up things for form
 for (let colourable of colourables) {
     colourable.classList.add(colourNow);
 }
 const colourInputs = document.querySelectorAll("#theme input");
-for (let input of colourInputs)
-    input.addEventListener("change", changeTheme);
-function changeTheme() {
-    var prev = colourNow;
-    for (let input of colourInputs) {
-        if (input.checked) {
-            colourNow = input.value;
-            break;
-        }
-    }
-    for (let colourable of colourables) {
-        colourable.classList.remove(prev);
-        colourable.classList.add(colourNow);
-    }
-}
+const bgm = document.querySelector("#bgm");
+bgm.loop = true;
+bgm.muted = false;
 
 const page1btn = document.querySelector("#page1btn");
 const page2btn = document.querySelector("#page2btn");
@@ -53,6 +43,8 @@ var allpages = document.querySelectorAll(".page");
 const homeButton = document.querySelector("footer>button");
 //JS for hamMenu
 const hamBtn = document.querySelector("#hamIcon");
+//Pg 0
+const styledBtns = document.querySelectorAll("button");
 //Page 1 variables
 const sections = allpages[1].querySelectorAll("h3");
 //Page 3 variables
@@ -63,6 +55,17 @@ var lefts = [];
 var tops = [];
 var size;
 var gameOverTO;
+var count = 0;
+const replayBtn = allpages[3].querySelector("button");
+var dir = [0, 0];
+var fingerX, fingerY;
+
+for (var row = 1; row <= 4; row++) {
+    for (var col = 1; col <= 4; col++) {
+        cells[count].style.gridArea = row + "/" + col + "/" + (row + 1) + "/" + (col + 1);
+        count++;
+    }
+}
 class block {
     constructor(element, x, y, value) {
         this.element = element;
@@ -106,7 +109,43 @@ const overlay = document.querySelector("#stainOverlay");
 const equips = document.querySelectorAll(".equip");
 const equipCells = document.querySelectorAll(".equipCell");
 var step = 0;
-
+const animGrids = document.querySelectorAll(".animGrid");
+const clouds = document.querySelectorAll(".cloud");
+for (var i = 0; i < clouds.length; i++) {
+    var cloud = clouds[i];
+    cloud.style.gridArea = "2/" + (i + 2) + "/3/" + (i + 3);
+    cloud.style.animationName = "cloud" + i;
+}
+for (let img of allpages[2].querySelectorAll("img")) {
+    img.setAttribute("draggable", (img.classList.contains("equip")));
+}
+for (var row = 0; row < 100 / stainSize; row++) {
+    for (var col = 0; col < 100 / stainSize; col++) {
+        if (row >= 30 / stainSize && col != 50 / stainSize)
+            continue;
+        var stain = document.createElement("div");
+        stain.classList.add("particle");
+        stain.classList.add("particle");
+        stain.style.backgroundColor = "saddlebrown";
+        stain.style.left = (col * stainSize) + "%";
+        stain.style.top = (row * stainSize) + "%";
+        overlay.appendChild(stain);
+    }
+}
+for (let equip of equips) {
+    equip.addEventListener(dragEvent, followMouse);
+    equip.addEventListener("animationstart", function (e) {
+        e.target.removeEventListener("dragstart", followMouse);
+    });
+    equip.addEventListener("animationend", function () {
+        step++;
+    })
+    equip.addEventListener("dragstart", function (e) {
+        e.dataTransfer.setData("text", e.target.id);
+        e.dataTransfer.setDragImage(e.target, window.outerWidth, window.outerHeight);
+    });
+    equip.addEventListener(dragendEvent, equipDragEnd);
+}
 /* End global variables */
 
 /* Event listeners */
@@ -138,12 +177,6 @@ for (let section of sections) {
     });
 }
 
-const styledBtns = document.querySelectorAll("button");
-var mouseoverEvent;
-if (mobile)
-    mouseoverEvent = "touchstart";
-else
-    mouseoverEvent = "mouseover";
 for (let btn of styledBtns) {
     btn.addEventListener(mouseoverEvent, function (e) {
         e.target.classList.add("buttonClick");
@@ -157,9 +190,54 @@ for (let btn of styledBtns) {
         });
     }
 }
+//settings listeners
+settingsbtn.addEventListener("click", function () {
+    document.querySelector("#options").classList.toggle("collapsed");
+    document.querySelector("#options").classList.toggle("collapsable");
+});
+for (let input of colourInputs)
+    input.addEventListener("change", changeTheme);
+soundCtrl.addEventListener("click", function () {
+    var src, alt;
+    if (!bgm.paused) {
+        bgm.pause();
+        src = "image/mute.png";
+        alt = "muted";
+    }
+    else {
+        bgm.play();
+        src = "image/unmute.png";
+        alt = "unmuted";
+    }
+    soundCtrl.src = src;
+    soundCtrl.alt = alt;
+})
+screenCtrl.addEventListener("click", function () {
+    var src, alt;
+    if (document.fullscreenElement || document.mozFullScreenElement
+        || document.webkitFullscreenElement || document.msFullscreenElement) {
+        exitFullscreen();
+        src = "image/minimise.png";
+        alt = "minimised";
+    }
+    else {
+        enterFullscreen();
+        src = "image/maximise.png";
+        alt = "maximised";
+    }
+    screenCtrl.src = src;
+    screenCtrl.alt = alt;
+})
+replayBtn.addEventListener("click", function () {
+    enableKeyboard();
+    resetGame();
+});
 /* End event listeners */
 
 show(0);
+
+//functions
+//show/hide elements with correct display (flex, block)
 function showHide(element, forceHide = false, forceShow = false) {
     if (forceHide) {
         if (element.classList.contains("showBlock")) {
@@ -246,7 +324,6 @@ function show(pgno) { //function to show selected page no
     }
 }
 
-
 function alignPg1() {
     for (let section of sections) {
         var divEle = section.nextElementSibling;
@@ -258,8 +335,10 @@ function alignPg1() {
 }
 function resetPg1() {
     //uncollapse everything
-    for (let section of allpages[1].querySelectorAll("h3"))
+    for (let section of allpages[1].querySelectorAll("h3")) {
+        section.nextElementSibling.classList.remove("collapsed");
         showHide(section.nextElementSibling, false, true);
+    }
     //remove unneeded listener
     window.removeEventListener("resize", alignPg1);
 }
@@ -277,7 +356,9 @@ function sizePg3() {
         b.selfSize();
 }
 function resetPg3() {
+    //remove unneeded listener
     window.removeEventListener("resize", sizePg3);
+    //reset game variavles and clear winlose checker
     dir = [0, 0];
     clearTimeout(gameOverTO);
     resetGame();
@@ -317,7 +398,6 @@ function updateBlock(e) {
         del[i].remove();
     }
 }
-
 function startTO() {
     gameOverTO = setTimeout(gameWinLose, 1);
 }
@@ -373,20 +453,6 @@ function gameWinLose() {
 }
 
 //Game
-var count = 0;
-for (var row = 1; row <= 4; row++) {
-    for (var col = 1; col <= 4; col++) {
-        cells[count].style.gridArea = row + "/" + col + "/" + (row+1) + "/" + (col + 1);
-        count++;
-    }
-}
-const replayBtn = allpages[3].querySelector("button");
-replayBtn.addEventListener("click", function () {
-    enableKeyboard();
-    resetGame();
-});
-
-var dir = [0, 0];
 function disableKeyboard() {
     if (mobile) {
         board.removeEventListener("touchstart", getFingerStart);
@@ -403,13 +469,10 @@ function enableKeyboard() {
     else
         document.addEventListener(gameCtrlEvent, onInput);
 }
-
-var fingerX, fingerY;
 function getFingerStart(e) {
     fingerX = e.touches[0].clientX;
     fingerY = e.touches[0].clientY;
 }
-
 function createBlock(value, x, y) {
     var ele = document.createElement("div");
     ele.style.left = lefts[x] + "px";
@@ -549,7 +612,6 @@ function blockAt(x, y) {
         return v2;
     }
 }
-
 function moveBlock(block) {
     //keep checking until block at edge or next block cannot merge
     while (block.x + dir[0] >= 0 && block.x + dir[0] < dimension
@@ -590,11 +652,8 @@ function resetGame() {
 
 //page 2
 //interactable
-for (let img of allpages[2].querySelectorAll("img")) {
-    img.setAttribute("draggable", (img.classList.contains("equip")));
-}
-settingsbtn.setAttribute("draggable", false);
 function resetCleaning() {
+    //make the cup dirty again
     for (let p of document.querySelectorAll(".particle"))
     {
         p.style.backgroundColor = "saddlebrown";
@@ -602,6 +661,7 @@ function resetCleaning() {
     }
 
     sizeAlignPg2();
+    //hide the "well done" image
     document.querySelector("#star").style.display = "none"
 
     for (let equip of equips) {
@@ -610,35 +670,6 @@ function resetCleaning() {
 
     step = 0;
 }
-for (var row = 0; row < 100 / stainSize; row++) {
-    for (var col = 0; col < 100 / stainSize; col++) {
-        if (row >= 30 / stainSize && col != 50 / stainSize)
-            continue;
-        var stain = document.createElement("div");
-        stain.classList.add("particle");
-        stain.classList.add("particle");
-        stain.style.backgroundColor = "saddlebrown";
-        stain.style.left = (col * stainSize) + "%";
-        stain.style.top = (row * stainSize) + "%";
-        overlay.appendChild(stain);
-    }
-}
-
-for (let equip of equips) {
-    equip.addEventListener(dragEvent, followMouse);
-    equip.addEventListener("animationstart", function (e) {
-        e.target.removeEventListener("dragstart", followMouse);
-    });
-    equip.addEventListener("animationend", function () {
-        step++;
-    })
-    equip.addEventListener("dragstart", function (e) {
-        e.dataTransfer.setData("text", e.target.id);
-        e.dataTransfer.setDragImage(e.target, window.outerWidth, window.outerHeight);
-    });
-    equip.addEventListener(dragendEvent, equipDragEnd);
-}
-
 function equipDragEnd(e) {
     var rect2 = overlay.getBoundingClientRect();
     var id = e.target.id;
@@ -686,7 +717,6 @@ function equipDragEnd(e) {
         }
     }
 }
-
 function followMouse(e, touchend=false) {
     var rect = e.target.getBoundingClientRect();
     var x, y;
@@ -712,6 +742,7 @@ function followMouse(e, touchend=false) {
         cleanStain();
 }
 
+//collision check between draggable sponge and particles
 function cleanStain() {
     var spongeRect = document.querySelector("#equip2").getBoundingClientRect();
     var allowance = Math.max(window.innerWidth, window.innerHeight) * 0.05;
@@ -729,20 +760,12 @@ function cleanStain() {
     }
 }
 
+//align the position: absolute images
 function putBack(numEquip) {
     var equipWidth = equipCells[0].querySelector("img").offsetWidth;
     equips[numEquip].style.left = equipCells[numEquip].querySelector("img").offsetLeft + "px";
     equips[numEquip].style.top = equipCells[numEquip].querySelector("img").offsetTop + "px";
     equips[numEquip].style.width = equipWidth + "px";
-}
-
-//animations
-const animGrids = document.querySelectorAll(".animGrid");
-const clouds = document.querySelectorAll(".cloud");
-for (var i = 0; i < clouds.length; i++) {
-    var cloud = clouds[i];
-    cloud.style.gridArea = "2/" + (i + 2) + "/3/" + (i + 3);
-    cloud.style.animationName = "cloud" + i;
 }
 function sizeAlignPg2() {
     for (var i = 0; i < equips.length; i++) {
@@ -755,44 +778,7 @@ function resetPg2() {
 }
 
 
-//audio
-const bgm = document.querySelector("#bgm");
-bgm.loop = true;
-bgm.muted = false;
-soundCtrl.addEventListener("click", function () {
-    var src, alt;
-    if (!bgm.paused) {
-        bgm.pause();
-        src = "image/mute.png";
-        alt = "muted";
-    }
-    else {
-        bgm.play();
-        src = "image/unmute.png";
-        alt = "unmuted";
-    }
-    soundCtrl.src = src;
-    soundCtrl.alt = alt;
-})
-screenCtrl.addEventListener("click", function () {
-    var src, alt;
-    if (document.fullscreenElement || document.mozFullScreenElement
-        || document.webkitFullscreenElement || document.msFullscreenElement) {
-        exitFullscreen();
-        src = "image/minimise.png";
-        alt = "minimised";
-    }
-    else {
-        enterFullscreen();
-        src = "image/maximise.png";
-        alt = "maximised";
-    }
-    screenCtrl.src = src;
-    screenCtrl.alt = alt;
-})
-
-const canFull = document.documentElement.requestFullscreen;
-
+//settings
 function enterFullscreen() {
     if (!canFull)
         return;
@@ -818,5 +804,19 @@ function exitFullscreen() {
         document.webkitExitFullscreen();
     } else if (document.msExitFullscreen) { // IE/Edge
         document.msExitFullscreen();
+    }
+}
+
+function changeTheme() {
+    var prev = colourNow;
+    for (let input of colourInputs) {
+        if (input.checked) {
+            colourNow = input.value;
+            break;
+        }
+    }
+    for (let colourable of colourables) {
+        colourable.classList.remove(prev);
+        colourable.classList.add(colourNow);
     }
 }
