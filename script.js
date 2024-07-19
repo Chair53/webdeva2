@@ -109,7 +109,6 @@ const overlay = document.querySelector("#stainOverlay");
 const equips = document.querySelectorAll(".equip");
 const equipCells = document.querySelectorAll(".equipCell");
 var step = 0;
-const animGrids = document.querySelectorAll(".animGrid");
 const clouds = document.querySelectorAll(".cloud");
 for (var i = 0; i < clouds.length; i++) {
     var cloud = clouds[i];
@@ -139,7 +138,7 @@ for (let equip of equips) {
     });
     equip.addEventListener("animationend", function () {
         step++;
-    })
+    });
     equip.addEventListener("dragstart", function (e) {
         e.dataTransfer.setData("text", e.target.id);
         e.dataTransfer.setDragImage(e.target, window.outerWidth, window.outerHeight);
@@ -211,11 +210,11 @@ soundCtrl.addEventListener("click", function () {
     }
     soundCtrl.src = src;
     soundCtrl.alt = alt;
-})
+});
 screenCtrl.addEventListener("click", function () {
     var src, alt;
-    if (document.fullscreenElement || document.mozFullScreenElement
-        || document.webkitFullscreenElement || document.msFullscreenElement) {
+    if (document.fullscreenElement || document.mozFullScreenElement ||
+        document.webkitFullscreenElement || document.msFullscreenElement) {
         exitFullscreen();
         src = "image/minimise.png";
         alt = "minimised";
@@ -227,7 +226,7 @@ screenCtrl.addEventListener("click", function () {
     }
     screenCtrl.src = src;
     screenCtrl.alt = alt;
-})
+});
 replayBtn.addEventListener("click", function () {
     enableKeyboard();
     resetGame();
@@ -264,13 +263,11 @@ function showHide(element, forceHide = false, forceShow = false) {
         }
     }
     else {
-        if (element.classList.contains("showBlock")
-            || element.classList.contains("hideBlock")) {
+        if (element.classList.contains("showBlock") || element.classList.contains("hideBlock")) {
             element.classList.toggle("showBlock");
             element.classList.toggle("hideBlock");
         }
-        else if (element.classList.contains("showFlex")
-            || element.classList.contains("hideFlex")) {
+        else if (element.classList.contains("showFlex") || element.classList.contains("hideFlex")) {
             element.classList.toggle("showFlex");
             element.classList.toggle("hideFlex");
         }
@@ -376,9 +373,8 @@ function updateBlock(e) {
                 img.alt = "value " + b.currValue;
 
                 for (let otherB of blocks) {
-                    if (otherB != b
-                        && otherB.x == b.x && otherB.y == b.y
-                        && otherB.value < b.value) {
+                    if (otherB != b && otherB.x == b.x &&
+                        otherB.y == b.y && otherB.value < b.value) {
                         b.element.style.zIndex = "unset";
                     }
                 }
@@ -423,9 +419,9 @@ function gameWinLose() {
             for (let otherB of blocks) {
                 if (b == otherB)
                     continue;
-                if (b.value == otherB.value
-                    && ((Math.abs(b.x - otherB.x) == 1 && otherB.y == b.y)
-                        || (Math.abs(b.y - otherB.y) == 1 && otherB.x == b.x))) {
+                if (b.value == otherB.value &&
+                    ((Math.abs(b.x - otherB.x) == 1 && otherB.y == b.y) ||
+                        (Math.abs(b.y - otherB.y) == 1 && otherB.x == b.x))) {
                     lose = false;
                     break;
                 }
@@ -614,8 +610,8 @@ function blockAt(x, y) {
 }
 function moveBlock(block) {
     //keep checking until block at edge or next block cannot merge
-    while (block.x + dir[0] >= 0 && block.x + dir[0] < dimension
-        && block.y + dir[1] >= 0 && block.y + dir[1] < dimension) {
+    while (block.x + dir[0] >= 0 && block.x + dir[0] < dimension &&
+        block.y + dir[1] >= 0 && block.y + dir[1] < dimension) {
         var next = blockAt(block.x + dir[0], block.y + dir[1]);
         //next one is empty --> just move
         if (next == null)
@@ -662,7 +658,7 @@ function resetCleaning() {
 
     sizeAlignPg2();
     //hide the "well done" image
-    document.querySelector("#star").style.display = "none"
+    document.querySelector("#star").style.display = "none";
 
     for (let equip of equips) {
         equip.classList.remove("equipAnim");
@@ -673,7 +669,7 @@ function resetCleaning() {
 function equipDragEnd(e) {
     var rect2 = overlay.getBoundingClientRect();
     var id = e.target.id;
-    var last = id[id.length - 1]
+    var last = id[id.length - 1];
 
     var x, y;
     if (mobile) {
@@ -710,9 +706,8 @@ function equipDragEnd(e) {
             else if (last == 1)
                 p.style.backgroundColor = "lightgrey";
             else {
-                document.querySelector("#star").style.display = "block"
+                document.querySelector("#star").style.display = "block";
                 break;
-/*                p.style.opacity = 0;*/
             }
         }
     }
